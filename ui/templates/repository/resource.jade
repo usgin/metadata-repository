@@ -63,7 +63,7 @@ block page-content
 		#title-container.clear-block
 			if can_edit
 				a#edit-button(href="/repository/resource/#{record['id']}/edit") Edit this resource
-			h1#record-title(itemprop="name")= record.Title			
+			h1#record-title(itemprop="name")= record.Title
 		#keywords-container
 			ul#keywords-list.horizontal-list
 				each keyword in record.Keywords
