@@ -17,7 +17,7 @@ block scripts
 		| 	#{record.GeographicExtent.WestBound},
 		| 	#{record.GeographicExtent.SouthBound},
 		|	#{record.GeographicExtent.WestBound} > #{record.GeographicExtent.EastBound} ? 360 + #{record.GeographicExtent.EastBound} : #{record.GeographicExtent.EastBound},
-		| 	#{record.GeographicExtent.NorthBound});  
+		| 	#{record.GeographicExtent.NorthBound});
 	{% endautoescape %}
 	
 block page-title
@@ -154,11 +154,11 @@ block page-content
 								div.email
 									strong Email: 
 									a(href="mailto:#{distributor['ContactInformation']['email']}?Subject=#{record['Title']}")
-										span(itemprop="email")= distributor.ContactInformation.email			
+										span(itemprop="email")= distributor.ContactInformation.email
 		fieldset#geo-extent.box-container
 			legend.box-container-title Geographic Extent
 			#geo-extent-info-container.box-subcontainer(itemprop="about", itemscope, itemtype="http://schema.org/GeoShape")
-				meta(itemprop="box", content="#{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['NorthBound']}, #{record['GeographicExtent']['WestBound']} #{record['GeographicExtent']['NorthBound']}, #{record['GeographicExtent']['WestBound']} #{record['GeographicExtent']['SouthBound']}, #{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['SouthBound']}, #{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['NorthBound']}")			
+				meta(itemprop="box", content="#{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['NorthBound']}, #{record['GeographicExtent']['WestBound']} #{record['GeographicExtent']['NorthBound']}, #{record['GeographicExtent']['WestBound']} #{record['GeographicExtent']['SouthBound']}, #{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['SouthBound']}, #{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['NorthBound']}")
 				div
 					strong North Bounding Latitude: 
 					span= record.GeographicExtent.NorthBound
@@ -171,15 +171,3 @@ block page-content
 				div
 					strong West Bounding Longitude: 
 					span= record.GeographicExtent.WestBound
-						
-				
-				
-			
-							
-						
-						
-						
-						
-						
-						
-	
