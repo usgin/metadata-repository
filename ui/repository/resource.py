@@ -46,8 +46,11 @@ def resource(req, resourceId):
     # List Author Names
     def getName(author):
         if 'OrganizationName' in author.keys():
-            if ('Name' in author.keys() and author['Name'] == 'No Name Was Given') or 'Name' not in author.keys():
-                return author['OrganizationName']         
+            if 'Name' in author.keys():
+                if author['Name'] == 'No Name Was Given': return author['OrganizationName']
+                else: return author['Name']
+            else:
+                return author['OrganizationName']            
         else: return author['Name']
     author_names = [ getName(author) for author in record['Authors'] ]
     
