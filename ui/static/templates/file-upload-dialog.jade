@@ -1,0 +1,5 @@
+#new-file-dialog(title="Attach a new file")
+	form#new-file-form(enctype="multipart/form-data", action="/metadata/record/#{id}/file/", method="POST", target="file-submit-result")			
+		input(type="file", name="upload-file")	
+	iframe#file-submit-result(style="display:none;")		
+		

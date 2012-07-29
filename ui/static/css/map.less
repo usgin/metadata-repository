@@ -1,0 +1,64 @@
+@import "base";
+
+.olControlZoomPanel {
+  div {
+    background-image:url(../img/tool-sprites.gif) !important;
+    height: 15px !important;
+    width: 15px !important;
+    font-size: 0px;
+  }
+  .olControlZoomToMaxExtentItemInactive {
+    display: none;
+  }
+  .olControlZoomInItemInactive {
+    background-position: 15px -240px !important;
+    top: -65px !important;
+    left: -7px !important;
+  }
+  .olControlZoomOutItemInactive {
+    background-position: 15px -255px !important;
+    top: -48px !important;
+    left: -7px !important;
+  }
+}
+
+.olDrawBox {
+  cursor: crosshair !important;
+}
+
+#zoomBox {
+  background-color: rgba(240,139,111,0.2) !important;
+  border: 2px solid @orange-color !important;
+  opacity: 1 !important;
+}
+
+#map-edit-tool {
+  width: 80px;
+  height: 16px;
+  float: right;
+  button {
+    float: right;
+    background-color: #477995;
+    opacity: 1;
+    border: 1px solid #FFFFFF;
+    width: 22px;
+    height: 15px;
+    background-image: url("/static/css/jqueryui/images/ui-icons_ffffff_256x240.png");
+    &:hover {
+      background-color: @orange-color;
+    }
+  }
+}
+
+#add-box {
+  background-position: -14px -130px;
+  margin-right: 2px;
+}
+
+#modify-box {
+  background-position: -62px -114px
+}
+
+.ui-state-press {
+  background-color: @orange-color !important;
+}

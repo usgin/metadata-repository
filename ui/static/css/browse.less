@@ -1,0 +1,121 @@
+@import "base";
+
+// For the title bar
+.collection-list-expand {
+  background-image: url("../css/jqueryui/images/ui-icons_ffffff_256x240.png") !important;
+  display: inline-block;
+  height: 13px;
+}
+
+.collection-list-title:hover {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.block-collection {
+  span:hover {
+    cursor: pointer;
+  }
+}
+
+.collection-list-actions {
+  display: inline-block;
+  float: right;
+  span {
+    display: inline-block;
+    background-image: url("../css/jqueryui/images/ui-icons_ffffff_256x240.png") !important;
+  }
+  span:hover {
+    display: inline-block;
+    background-image: url("../css/jqueryui/images/ui-icons_F08B6F_256x240.png") !important;
+  }
+}
+
+.collection-description {
+  color: @orange-color;
+  font-size: 12px;
+  padding-bottom: 10px;
+}
+
+.collection-content {
+  background-color: white;  
+}
+
+#collections-list-content {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+// For content
+.record-container {
+  list-style: none;
+  padding-left: 6px;
+  a {
+    color: @menu-color;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  span:hover {
+    cursor: pointer;
+  }
+}
+
+.record-inner-list {
+  padding-left: 12px;
+}
+
+.record-item-link {
+  color: @orange-color !important;
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
+
+.collection-item {
+  display: block;
+  text-decoration: none !important;
+  & > a > .ui-icon {
+    background-image: url("../css/jqueryui/images/ui-icons_006891_256x240.png") !important;
+  }
+  a {
+    padding-right: 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+// Buttons
+.manage-tools(@background-image) {
+  display: inline-block;
+  span {
+    display: inline-block;
+    background-image: @background-image !important;
+    vertical-align: middle;
+    opacity: 0.15;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.collection-toolbar {
+  .manage-tools(url("../css/jqueryui/images/ui-icons_006891_256x240.png"))
+}
+
+.record-toolbar {
+  .manage-tools(url("../css/jqueryui/images/ui-icons_F08B6F_256x240.png"))
+}
+
+#new-collection-dialog {
+  input {
+    width: 420px;
+    margin-bottom: 10px;
+    border: 3px solid @orange-color;
+  }
+  textarea {
+    width: 465px;
+    border: 3px solid @orange-color;
+  }
+}

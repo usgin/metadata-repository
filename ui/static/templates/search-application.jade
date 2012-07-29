@@ -1,0 +1,13 @@
+h1#search-title Search
+#full-text-container
+	label Enter your keywords: 
+	#container-inline
+		if term
+			input#search-terms(value=term)
+		else
+			input#search-terms
+		button#search-button Search
+#results-container
+	h2#result-count
+	dl#results.search-results
+ul#page-switcher

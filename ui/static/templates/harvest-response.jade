@@ -1,0 +1,9 @@
+h2(style="padding-bottom: 10px;") Your harvest was successful (#{newResources.length} new resources)
+	div#response-container
+		div.block-title Please edit your harvested content:
+		div.block-content
+			p Please note that your records will not be available to the public until they are published.
+			ul#edit-links.menu
+				each id, r in newResources
+					li 
+						a(href="/repository/resource/#{id}") Record #{new Number(r) + 1}

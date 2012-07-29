@@ -1,0 +1,29 @@
+#resource-published.required.key-value
+	span.label Published?
+	if Published == true
+		input(type="checkbox", attr="Published", checked="checked")
+	else
+		input(type="checkbox", attr="Published")
+#resource-title.required.key-value
+	span.label Title
+	input(attr="Title", value="#{Title}")
+#resource-description.required.key-value.textarea-container
+	span.label Description
+	textarea.content(attr="Description")= Description
+#resource-publicationDate.required.key-value
+	span.label Publication Date
+	input(type="datetime-local", attr="PublicationDate", value="#{PublicationDate}")
+#resource-resourceId.key-value
+	span.label Resource ID
+	input(attr="ResourceId", value="#{ResourceId}")
+#resource-keywords.required.array-container
+	fieldset
+		legend
+			span Keywords
+			.add-button
+		ul#keywords-list.array(attr="Keywords")
+			each keyword in Keywords
+				li.key-value
+					input(attr="Keyword", value=keyword)
+					.remove-button
+	

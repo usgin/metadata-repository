@@ -1,0 +1,14 @@
+if currentPage > 1
+	li(id="pager-first").pager-item &lt;&lt; first
+	li(id="pager-pre").pager-item &lt; previous
+
+- var pages = new Array(pageCount)	
+each item, i in pages
+	if i + 1 == currentPage
+		li(id="pager-#{i + 1}").pager-item.pager-current= i + 1
+	else
+		li(id="pager-#{i + 1}").pager-item= i + 1
+		
+if currentPage < pageCount
+	li(id="pager-nxt").pager-item next &gt;
+	li(id="pager-last", last="#{pageCount}").pager-item last &gt;&gt;

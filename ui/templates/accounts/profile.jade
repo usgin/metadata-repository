@@ -1,0 +1,15 @@
+extends ./base
+
+block page-title
+	title= user
+	
+block styles
+	link(rel="stylesheet/less", type="text/css", href="/static/css/profile.less")
+	
+block page-content
+	#user-info-block
+		#user-info-title.block-title Welcome back, #{user.username}
+		#user-info-content.block-content
+			p There isn't any user profile information collected yet...
+			a(href="/accounts/logout") Click to logout
+	

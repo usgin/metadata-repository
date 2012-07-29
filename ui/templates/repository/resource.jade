@@ -1,0 +1,185 @@
+extends ./base
+
+block styles
+	link(rel="stylesheet", type="text/css", href="/static/css/jqueryui/jquery-ui-1.8.16.custom.css")
+	link(rel="stylesheet/less", type="text/css", href="/static/css/resource.less")
+	link(rel="stylesheet/less", type="text/css", href="/static/css/map.less")
+
+block scripts
+	script(type="application/javascript", src="/static/js/jquery-ui-1.8.16.custom.min.js")
+	script(type="application/javascript", src="http://maps.google.com/maps/api/js?v=3.5&amp;sensor=false")
+	script(type="application/javascript", src="/static/openlayers/OpenLayers.js")
+	script(type="application/javascript", src="/static/js/resource.js")
+	script(type="application/javascript", src="/static/js/map.js")
+	{% autoescape off %}
+	script(type="application/javascript")
+		| var geoExtent = new OpenLayers.Bounds(
+		| 	#{record.GeographicExtent.WestBound},
+		| 	#{record.GeographicExtent.SouthBound},
+		|	#{record.GeographicExtent.WestBound} > #{record.GeographicExtent.EastBound} ? 360 + #{record.GeographicExtent.EastBound} : #{record.GeographicExtent.EastBound},
+		| 	#{record.GeographicExtent.NorthBound});  
+	{% endautoescape %}
+	
+block page-title
+	title= record.Title 
+	
+block sidebar-content
+	#collections-block
+		h2#collections-title.block-title Collections
+		#collections-content.block-content
+			ul#collections-menu.menu
+				each col in collections
+					li
+						a(href="/repository/collection/#{col.collection_id}/")= col.title
+						
+		#online-links-block
+			h2#online-links-title.block-title Online Availability
+			#online-links-content.block-content
+				ul#online-links-menu.menu
+					each link in links
+						li
+							a(href="#{link['url']}", itemprop="url")= link.label
+							
+		#map-block
+			h2#map-title.block-title Resource Location
+			#map-content.block-content
+				#map
+				
+		#formal-metadata-block
+			h2#formal-metadata-title.block-title Standard Metadata
+			#formal-metadata-content.block-content
+				ul#formal-metadata-list.menu
+					li
+						a(href="/metadata/record/#{record['id']}.iso.xml") USGIN ISO 19139
+					li
+						a(href="/metadata/record/#{record['id']}.atom.xml") Atom Feed
+					li
+						a(href="/metadata/record/#{record['id']}.geojson") GeoJSON
+
+block page-content
+	#record-container
+		if not record.Published
+			p#not-published ---- THIS RECORD IS UNPUBLISHED ----
+		#title-container.clear-block
+			if can_edit
+				a#edit-button(href="/repository/resource/#{record['id']}/edit") Edit this resource
+			h1#record-title(itemprop="name")= record.Title			
+		#keywords-container
+			ul#keywords-list.horizontal-list
+				each keyword in record.Keywords
+					li
+						a(href="/repository/search/#{keyword}", itemprop="keywords")= keyword
+		fieldset#basic-information.box-container
+			legend Basic Information
+			#basic-info-container.box-subcontainer
+				#author-container
+					strong Author: 
+					#{author_names}
+				#description-container
+					strong Description:
+					span(itemprop="description")= record.Description
+				#pub-date-container
+					strong Publication Date: 
+					span(itemprop="datePublished")= pub_date
+		fieldset#int-originator.box-container
+			legend Author Contact Information
+			#int-originator-info-container
+				each author in record.Authors
+					div(itemprop="author", itemscope, itemtype="http://schema.org/Person").box-subcontainer
+						if author.Name and author.Name != "No Name Was Given"
+							div
+								strong Name: 
+								span(itemprop="name")= author.Name
+						if author.OrganizationName
+							div
+								strong Organization Name: 
+								span(itemprop="affiliation")= author.OrganizationName
+						div
+							if author.ContactInformation.Address
+								div(itemprop="workLocation", itemscope, itemtype="http://schema.org/PostalAddress")
+									div
+										strong Street: 
+										span(itemprop="streetAddress")= author.ContactInformation.Address.Street
+									div
+										strong City: 
+										span(itemprop="addressLocality")= author.ContactInformation.Address.City
+									div
+										strong State: 
+										span(itemprop="addressRegion")= author.ContactInformation.Address.State
+									div
+										strong Zip: 
+										span(itemprop="postalCode")= author.ContactInformation.Address.Zip
+							if author.ContactInformation.Phone
+								div
+									strong Phone: 
+									span(itemprop="telephone")= author.ContactInformation.Phone
+							if author.ContactInformation.email
+								div.email
+									strong Email: 
+									a(href="mailto:#{author['ContactInformation']['email']}?Subject=#{record['Title']}")
+										span(itemprop="email")= author.ContactInformation.email
+		fieldset#dist-originator.box-container
+			legend Distributor Contact Information
+			#dist-originator-info-container
+				each distributor in record.Distributors
+					div(itemprop="provider", itemscope, itemtype="http://schema.org/Person").box-subcontainer
+						if distributor.Name and distributor.Name != "No Name Was Given"
+							div
+								strong Name: 
+								span(itemprop="name")= distributor.Name
+						if distributor.OrganizationName
+							div
+								strong Organization Name: 
+								span(itemprop="affiliation")= distributor.OrganizationName
+						div
+							if distributor.ContactInformation.Address
+								div(itemprop="workLocation", itemscope, itemtype="http://schema.org/PostalAddress")
+									div
+										strong Street: 
+										span(itemprop="streetAddress")= distributor.ContactInformation.Address.Street
+									div
+										strong City: 
+										span(itemprop="addressLocality")= distributor.ContactInformation.Address.City
+									div
+										strong State: 
+										span(itemprop="addressRegion")= distributor.ContactInformation.Address.State
+									div
+										strong Zip: 
+										span(itemprop="postalCode")= distributor.ContactInformation.Address.Zip
+							if distributor.ContactInformation.Phone
+								div
+									strong Phone: 
+									span(itemprop="telephone")= distributor.ContactInformation.Phone
+							if distributor.ContactInformation.email
+								div.email
+									strong Email: 
+									a(href="mailto:#{distributor['ContactInformation']['email']}?Subject=#{record['Title']}")
+										span(itemprop="email")= distributor.ContactInformation.email			
+		fieldset#geo-extent.box-container
+			legend.box-container-title Geographic Extent
+			#geo-extent-info-container.box-subcontainer(itemprop="about", itemscope, itemtype="http://schema.org/GeoShape")
+				meta(itemprop="box", content="#{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['NorthBound']}, #{record['GeographicExtent']['WestBound']} #{record['GeographicExtent']['NorthBound']}, #{record['GeographicExtent']['WestBound']} #{record['GeographicExtent']['SouthBound']}, #{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['SouthBound']}, #{record['GeographicExtent']['EastBound']} #{record['GeographicExtent']['NorthBound']}")			
+				div
+					strong North Bounding Latitude: 
+					span= record.GeographicExtent.NorthBound
+				div
+					strong South Bounding Latitude: 
+					span= record.GeographicExtent.SouthBound
+				div
+					strong East Bounding Longitude: 
+					span= record.GeographicExtent.EastBound
+				div
+					strong West Bounding Longitude: 
+					span= record.GeographicExtent.WestBound
+						
+				
+				
+			
+							
+						
+						
+						
+						
+						
+						
+	

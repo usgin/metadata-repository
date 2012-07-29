@@ -1,0 +1,34 @@
+fieldset
+	legend.small-legend.obj-legend
+		if schemaName == 'serviceLink'
+			span= ServiceType
+		else if Name && Name != null
+			span= Name
+		else
+			span= URL
+		.remove-array-item-button
+	ul.object
+		if schemaName == 'serviceLink'
+			li.required.key-value.enum
+				span.label Service Type
+				select(attr="ServiceType")
+					for type in [ 'OGC:WMS', 'OGC:WFS', 'OGC:WCS', 'OPENDaP', 'ESRI' ]
+						if ServiceType == type
+							option(value=type, selected="selected")= type
+						else
+							option(value=type)= type
+			li.key-value
+				span.label Layer ID
+				input(attr="LayerId", value=LayerId)
+		li.required.key-value
+			span.label URL
+			input(attr="URL", value=URL)
+		li.key-value
+			span.label Name
+			input(attr="Name", value=Name)
+		li.key-value
+			span.label Description
+			input(attr="Description", value=Description)
+		li.key-value
+			span.label Distributor
+			input.distributors(attr="Distributor", value=Distributor)

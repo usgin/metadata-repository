@@ -1,0 +1,9 @@
+a.expand
+	span.ui-icon.ui-icon-triangle-1-e.collection-list-expand
+	span= title
+if can_edit
+	div.collection-toolbar
+		span(id="#{id}-addCollection").ui-icon.ui-icon-folder-collapsed.addCollection
+		span(id="#{id}-addRecord").ui-icon.ui-icon-document.addRecord
+		span(id="#{id}-deleteCollection").ui-icon.ui-icon-trash.deleteCollection
+ul(id="#{id}").record-list.record-inner-list.hidden

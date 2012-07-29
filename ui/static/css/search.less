@@ -1,0 +1,127 @@
+@import "base";
+
+#search-title {
+  color: #444;
+  display: block;
+  font-size: 19px;
+  font-weight: bold;
+  height: 24px;
+  line-height: 24px;  
+}
+
+#full-text-container {
+  background-color: transparent;
+  background-image: none;
+  font-size: 12px;
+  line-height: 16px;
+  margin-bottom: 12px;
+  margin-top: 12px; 
+}
+
+#full-text-container label {
+  color: #323232;
+  cursor: default;
+  display: block; 
+  font-weight: bold;
+  height: 16px;
+  width: 920px;
+}
+
+#full-text-container #container-inline {
+  height: 22px;
+  margin-bottom: 12px;
+  margin-top: 6px;    
+}
+
+#full-text-container #container-inline input {
+  margin-right: 6px;
+  width: 300px;
+}
+
+#full-text-container #container-inline button{
+  margin-left: 6px;
+  margin-right: 6px;
+  text-align: center;   
+}
+
+#results-container {
+  padding-top: 12px;  
+}
+
+#results-container h2 {
+  color: #444;
+  font-size: 17px;
+  font-weight: bold;
+  height: 21px;
+  line-height: 21px;  
+}
+
+input, textarea, button {
+    border: 3px solid @orange-color;
+    padding: 5px;
+}
+
+#search-button {
+    background-color: #EDCFC7;
+}
+
+.search-results {
+  padding-bottom: 1px;
+  padding-top: 10px;
+  dt {
+    display: block;
+    font-size: 13px;
+    height: auto;
+    line-height: 16px;
+    padding-bottom: 5px
+  }
+  dd {
+    color: #323232;
+    display: block;
+    line-height: 16px;
+    margin-bottom: 15px;
+    margin-left: 24px;
+  }
+}
+
+.search-results-title {
+  color: @menu-color;
+  cursor: auto;
+  display: inline;
+  font-size: 13px;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.search-results-description {
+  font-size: 12px;
+  padding-bottom: 10px;
+}
+
+.search-results-info {
+  font-size: 10px;
+  padding-top: 5px;
+}
+
+#page-switcher {
+  text-align: center; 
+  li {
+    font-family: Arial, Helvetica, 'Bitstream Vera Sans', sans-serif;
+    font-size: 12px;
+    display: inline;
+    list-style-type: none;
+    padding: 6px;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}
+
+.pager-current {
+  font-weight: bold;
+  text-decoration: underline;
+}

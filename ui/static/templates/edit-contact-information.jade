@@ -1,0 +1,13 @@
+- if (typeof(Phone) == 'undefined') var Phone = ''
+- if (typeof(email) == 'undefined') var email = ''
+fieldset
+	legend.small-legend
+		span Contact Information
+	ul.object
+		li.key-value
+			span.label Phone
+			input(attr="Phone", value=Phone)
+		li.key-value
+			span.label email
+			input(attr="email", value=email)
+		li.object-container.address			

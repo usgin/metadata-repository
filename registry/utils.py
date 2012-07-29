@@ -1,0 +1,69 @@
+from django.http import HttpResponse
+from metadatadb.proxy import proxyRequest
+from models import Resource, ResourceCollection, Contact
+import json
+
+def sync():
+    # Purge existing data
+    Resource.objects.all().delete()
+    ResourceCollection.objects.all().delete()
+    Contact.objects.all().delete()
+    
+    # Retrieve all the metadata collections from CouchDB
+    collectionResponse = proxyRequest('/metadata/collection/', 'GET')
+    collections = json.loads(collectionResponse.content)
+    
+    # Create a ResourceCollection for each one
+    for collection in collections:
+        try:
+            col = ResourceCollection.objects.get(collection_id=collection['id'])
+            col.title = collection['Title']
+            col.description = collection.get('Description','')
+            col.save()
+        except ResourceCollection.DoesNotExist:
+            col = ResourceCollection.objects.create(collection_id=collection['id'], title=collection['Title'], description=collection.get('Description',''))
+        
+        # Add parent collections
+        for parentId in collection.get('ParentCollections', []):
+            try:
+                par = ResourceCollection.objects.get(collection_id=parentId)
+                col.parents.add(par)
+            except ResourceCollection.DoesNotExist:
+                pass
+            
+    # Retrieve all the metadata records from CouchDB
+    recordResponse = proxyRequest('/metadata/record/', 'GET')
+    records = json.loads(recordResponse.content)
+    
+    # Create a Resource for each one
+    for record in records:
+        try:
+            res = Resource.objects.get(metadata_id=record['id'])
+            res.title = record['Title']
+            res.published = record['Published']
+            res.save()
+        except Resource.DoesNotExist:
+            res = Resource.objects.create(metadata_id=record['id'], title=record['Title'], published=record['Published'])
+    
+        # Add the Resource to the appropriate ResourceCollections
+        for collection_id in record['Collections']:
+            try: 
+                col = ResourceCollection.objects.get(collection_id=collection_id)
+                res.collections.add(col)
+            except ResourceCollection.DoesNotExist:
+                pass
+        
+        # Contact tracking
+        contacts = record['Authors'] + record['Distributors']
+        for contact in contacts:
+            if ('Name' not in contact.keys() or contact['Name'] == 'No Name Was Given' or contact['Name'] == '') and 'OrganizationName' in contact.keys():
+                name = contact['OrganizationName']
+            else: name = contact['Name']
+            try:
+                Contact.objects.get(name=name)
+            except Contact.DoesNotExist:
+                Contact.objects.create(name=name, json=json.dumps(contact))
+            
+def synch_to_couchdb(req):
+    sync()
+    return HttpResponse('Success')

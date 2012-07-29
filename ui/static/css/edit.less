@@ -1,0 +1,255 @@
+@import "browse";
+
+.collection-toolbar {
+  float: right;
+  span:hover {
+    cursor: pointer;
+  }
+}
+
+.link-ish {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+// Some variables
+@input-color: white;
+@label-color: @menu-color;
+@grey-border-color: #C6CACC;
+@required-border-color: @orange-color;
+@required-fieldset-color: #DADEE0;
+@optional-fieldset-color: lighten(@required-fieldset-color, 10%);
+@block-background-color: @block-bg-color;
+
+@edit-font-size: 14px;
+@edit-font-fam: Arial, Helvetica, sans-serif;
+@input-height: 25px;
+@textarea-height: 130px;
+@std-border: 1px solid @grey-border-color;
+@required-border: 3px solid @required-border-color;
+
+// Some Functions
+.pointer() {
+  &:hover { cursor: pointer; }
+}
+
+.button(@img-url) {
+  height: 16px;
+  width: 16px;
+  background-image: @img-url;
+  display: inline-block;
+  opacity: 0.4;
+  .pointer();
+  &:hover { opacity: 1.0; }
+}
+
+.std-border(@width: 1px, @style: solid, @color:@grey-border-color) {
+  border-width: @width;
+  border-style: @style;
+  border-color: @color;
+}
+
+// And now some rules
+#editor-header h1 {
+  font-size: 19px;
+  margin-bottom: 10px;
+  float: left;
+}
+
+#publisher { float: right; }
+
+.hidden {
+  display: none !important;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  margin: 4px;
+}
+
+.label {
+  font-size: @edit-font-size;
+  font-weight: bold;
+  display: inline-block;
+  height: 15px !important;
+  color: @label-color;
+  padding: 5px;
+}
+
+@header-color: #447799;
+.mini-legends(@weight: normal, @font-color: black, @background: @input-color, @border: @grey-border-color) {
+  font-weight: @weight;
+  color: @font-color;
+  background-color: @background;
+  border-color: @border;
+}
+
+legend {
+  border: @std-border;    
+  border-radius: 4px;
+  border-color: white;
+  margin-left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-weight: bold;
+  color: white;
+  background-color: @header-color;
+  &.small-legend {
+    .mini-legends();
+    font-size: @edit-font-size - 2;
+    height: 16px;
+  }
+  &.obj-legend {
+    .mini-legends(bold, white, lighten(@header-color, 20%));
+    border: none;
+    span {
+      position: relative;
+      top: -4px;
+    }
+  }
+  span {
+    .pointer();
+  }
+}
+
+#resource-container {
+  #basic-metadata {
+    .key-value {
+      margin-bottom: 5px;
+    }
+  }
+  //.std-border();
+  //background-color: @input-color;
+  .key-value {
+    position: relative;
+    height: @input-height;
+    border: @std-border;
+  }
+  .textarea-container {
+    height: @textarea-height + 30;
+  }
+  .textarea-container > span {
+    border: none !important;
+  }
+  .object-container, .array-container {
+    border: none !important;
+    background: none !important;
+    margin-bottom: 5px;
+  }
+  .array-container > fieldset > ul > li.object-container > fieldset {
+    border-color: lighten(@header-color, 20%);
+    border-width: 3px;
+    border-radius: 9px;
+  }
+  select {
+    border: none;
+    background-color: @input-color;
+    height: @input-height;
+    position: absolute;
+    -webkit-appearance: menulist-textfield;
+    padding-left: 5px;
+  }
+/** Styling for required content **/
+  .required {
+    border: @required-border;
+  }
+  .required > span {
+    border: none;
+    border-right: @required-border;
+  }
+  .required > textarea {
+    border-top: @required-border;
+  }
+  .required > fieldset {
+    background-color: @required-fieldset-color;
+  }
+  li > span, .label {
+    border-right: @std-border;
+    background-color: @input-color;
+  }
+  span + input, li input {
+    border: none;
+    height: @input-height;
+    padding-left: 5px;
+    position: absolute;
+  }
+  textarea {
+    font-family: @edit-font-fam;
+    border: none;
+    border-top: @std-border;
+    width: 98%;
+    height: @textarea-height;
+    margin-left: 5px;
+    resize: none;
+  }
+  fieldset {
+    .std-border();
+    background-color: @optional-fieldset-color;
+  }
+}
+
+// Buttons buttons buttons
+.remove-button {
+  .button(url("../img/cancel.png"));
+  position:absolute;
+  right:1px;
+  top:4px;  
+}
+
+.additional-button(@url: url("../img/add.png")) {
+  .button(@url);
+  margin-left: 15px;
+  position: relative;
+  top: 2px;
+}
+
+.add-button {
+  .additional-button();
+}
+
+.add-file-button {
+  .additional-button(url("../img/page_link.png"));
+}
+
+.add-service-button {
+  .additional-button(url("../img/world_link.png"));
+}
+
+.add-contact-button {
+  .additional-button(url("../img/user_add.png"));
+}
+
+.remove-array-item-button {
+  .additional-button(url("../img/cancel.png"));
+  top: 0px;
+}
+
+.register-contact {
+  .additional-button(url("../img/user_go.png"));
+  top: 0px;
+}
+
+.delete-button, .save-button {
+  margin-left: 30px;
+  margin-bottom: 10px;
+  padding: 4px;
+  float: right;
+}
+
+.save-resource-button {
+  @button-padding: 6px;
+  padding: @button-padding;
+  padding-left: @button-padding + 10;
+  padding-right: @button-padding + 10;
+  font-weight: bold;
+  font-size: @edit-font-size + 2;
+  margin-top: 8px;
+  float: right;
+}

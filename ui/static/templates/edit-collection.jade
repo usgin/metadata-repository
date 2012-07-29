@@ -1,0 +1,6 @@
+li
+	if can_edit
+		div.collection-toolbar
+			span(id="#{id}-deleteCollection").ui-icon.ui-icon-trash.deleteCollection 
+	a(href="/repository/collection/#{id}/")
+		span= title		

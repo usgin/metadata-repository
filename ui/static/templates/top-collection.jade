@@ -1,0 +1,11 @@
+div.block-title.block-collection
+	a.expand
+		span.ui-icon.ui-icon-triangle-1-e.collection-list-expand
+		span.collection-list-title= title
+	if can_edit
+		div.collection-list-actions
+			span(id="#{id}-addCollection").ui-icon.ui-icon-folder-collapsed.addCollection
+			span(id="#{id}-addRecord").ui-icon.ui-icon-document.addRecord
+div.block-content.collection-content
+	div(id="#{id}-description").collection-description= description
+	ul(id="#{id}").record-list.hidden

@@ -1,0 +1,19 @@
+- if (typeof(OrganizationName) == 'undefined') var OrganizationName = ''
+- if (typeof(Name) == 'undefined') var Name = ''
+fieldset
+	legend.small-legend.obj-legend
+		if (Name == '' || Name == 'No Name Was Given') && OrganizationName != ''
+			span= OrganizationName
+		else
+			span= Name 
+		//.register-contact
+		.remove-array-item-button
+	ul.object
+		li.key-value
+			span.label Name
+			input(attr="Name", value=Name)
+		li.key-value
+			span.label Organization Name
+			input(attr="OrganizationName", value=OrganizationName || '')
+		li.required.object-container.contact-information
+			
