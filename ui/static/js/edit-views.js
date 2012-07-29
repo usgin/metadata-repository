@@ -241,14 +241,16 @@
             $('#new-file-form').ajaxForm();
             return $('#new-file-form').ajaxSubmit({
               success: function(data, status, xhr) {
-                var f, loc;
+                var f, filename, loc;
                 loc = xhr.getResponseHeader('Location');
+                filename = loc.split('/').pop();
                 f = new FileAttachment({
-                  filename: loc.split('/').pop(),
+                  filename: filename,
                   location: loc
                 });
                 root.app.filesView.model.add(f);
                 root.app.filesView.render();
+                root.app.linksView.addLink(loc, filename);
                 $('#new-file-dialog').dialog('close');
                 return $('#new-file-dialog').remove();
               }
@@ -492,11 +494,16 @@
       return collapseFieldsets(evt.target);
     };
 
-    LinksView.prototype.addLink = function() {
-      var link;
-      link = new root.Link({
+    LinksView.prototype.addLink = function(url, name) {
+      var link, linkOpts;
+      if (url == null) url = null;
+      if (name == null) name = null;
+      linkOpts = {
         schemaName: 'link'
-      });
+      };
+      if (url != null) linkOpts.URL = url;
+      if (url != null) linkOpts.Name = name;
+      link = new root.Link(linkOpts);
       link.schema = root.app.schemas.link;
       root.app.linksView.model.add(link);
       return root.app.linksView.render();

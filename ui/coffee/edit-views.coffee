@@ -165,13 +165,20 @@ class root.FilesView extends Backbone.View
           $('#new-file-form').ajaxForm()
           $('#new-file-form').ajaxSubmit {
             success: (data, status, xhr) ->
-              # Update the UI
+              # Update the UI, Available Files
               loc = xhr.getResponseHeader('Location')
-              f = new FileAttachment { filename: loc.split('/').pop(), location: loc }
+              filename = loc.split('/').pop()
+              f = new FileAttachment { filename: filename, location: loc }
               root.app.filesView.model.add f
               root.app.filesView.render()
+              
+              # Update the UI, Links
+              root.app.linksView.addLink loc, filename
+              
               $('#new-file-dialog').dialog 'close'
               $('#new-file-dialog').remove()
+              
+              
           }                               
         Cancel: ->
           $(this).dialog 'close'
@@ -195,10 +202,10 @@ class root.FilesView extends Backbone.View
             error: (err) ->
               console.log err
             success: (data, status, xhr) ->
-              # Update the UI
+              # Update the UI, available files
               f = root.app.filesView.model.get id
               root.app.filesView.model.remove f
-              root.app.filesView.render() 
+              root.app.filesView.render()               
           $.ajax opts
           $(this).dialog 'close'
           $(this).remove()
@@ -317,8 +324,12 @@ class root.LinksView extends Backbone.View
   collapse: (evt) ->
     collapseFieldsets evt.target
 
-  addLink: ->
-    link = new root.Link { schemaName: 'link' }
+  addLink: (url = null, name = null) ->
+    linkOpts = 
+      schemaName: 'link'
+    linkOpts.URL = url if url?
+    linkOpts.Name = name if url?
+    link = new root.Link linkOpts
     link.schema = root.app.schemas.link
     root.app.linksView.model.add link
     root.app.linksView.render()
