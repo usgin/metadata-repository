@@ -173,7 +173,7 @@ class root.FilesView extends Backbone.View
               root.app.filesView.render()
               
               # Update the UI, Links
-              root.app.linksView.addLink loc, filename
+              root.app.linksView.addLink null, loc, filename
               
               $('#new-file-dialog').dialog 'close'
               $('#new-file-dialog').remove()
@@ -324,11 +324,11 @@ class root.LinksView extends Backbone.View
   collapse: (evt) ->
     collapseFieldsets evt.target
 
-  addLink: (url = null, name = null) ->
+  addLink: (evt, url = null, name = null) ->
     linkOpts = 
       schemaName: 'link'
     linkOpts.URL = url if url?
-    linkOpts.Name = name if url?
+    linkOpts.Name = name if name?
     link = new root.Link linkOpts
     link.schema = root.app.schemas.link
     root.app.linksView.model.add link
