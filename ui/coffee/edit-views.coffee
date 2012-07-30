@@ -177,8 +177,6 @@ class root.FilesView extends Backbone.View
               
               $('#new-file-dialog').dialog 'close'
               $('#new-file-dialog').remove()
-              
-              
           }                               
         Cancel: ->
           $(this).dialog 'close'
@@ -340,6 +338,13 @@ class root.LinksView extends Backbone.View
     root.app.linksView.model.add link
     root.app.linksView.render()
     
+  getLinkByUrl: (searchUrl) ->
+    results = @model.filter (link) ->
+      return link.get('URL') is searchUrl
+    switch results.length
+      when 0 then return null
+      else return results[0] 
+          
 # Additional Styling Functions
 resizeInputs = (index, ele) ->
   ele = $(ele)
@@ -402,6 +407,7 @@ class root.BasicMetadataView extends Backbone.View
     keys.splice 0, 0, ''
     @model.set 'Keywords', keys
     @render()
+    
   removeKeyword: (evt) ->
     rem = $(evt.target).siblings('input').val()
     keys = @model.get 'Keywords'

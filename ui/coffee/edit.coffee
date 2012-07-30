@@ -136,6 +136,10 @@ $(document).ready ->
     autocompleteDistributors: ->
       $('.distributors').autocomplete {
         source: ( $(dist).html() for dist in $ '.distributor-title' )
+        select: (evt, ui) ->
+          url = $(evt.target).parent().parent().find('[attr="URL"]').val()
+          link = root.app.linksView.getLinkByUrl url
+          link.set 'Distributor', ui.item.value
       }
          
     saveRecord: ->
