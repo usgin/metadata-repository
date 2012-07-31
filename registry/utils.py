@@ -45,7 +45,7 @@ def sync():
             res.published = record['Published']
             res.save()
         except Resource.DoesNotExist:
-            res = Resource.objects.create(metadata_id=record['id'], title=record['Title'], published=record['Published'])
+            res = Resource.objects.create(metadata_id=record['id'], title=record['Title'], published=record.get('Published', False))
     
         # Add the Resource to the appropriate ResourceCollections
         for collection_id in record['Collections']:
