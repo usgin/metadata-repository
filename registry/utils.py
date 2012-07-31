@@ -23,9 +23,11 @@ def sync():
         except ResourceCollection.DoesNotExist:
             col = ResourceCollection.objects.create(collection_id=collection['id'], title=collection['Title'], description=collection.get('Description',''))
         
-        # Add parent collections
+    # Add parent collections, needs to be done in a separate loop so that all parents are already in place
+    for collection in collections:
+        col = ResourceCollection.objects.get(collection_id=collection['id'])
         for parentId in collection.get('ParentCollections', []):
-            try:
+            try:                            
                 par = ResourceCollection.objects.get(collection_id=parentId)
                 col.parents.add(par)
             except ResourceCollection.DoesNotExist:
