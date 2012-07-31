@@ -48,7 +48,7 @@ def sync():
             res = Resource.objects.create(metadata_id=record['id'], title=record['Title'], published=record.get('Published', False))
     
         # Add the Resource to the appropriate ResourceCollections
-        for collection_id in record['Collections']:
+        for collection_id in record.get('Collections', []):
             try: 
                 col = ResourceCollection.objects.get(collection_id=collection_id)
                 res.collections.add(col)
