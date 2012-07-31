@@ -6,6 +6,7 @@ class Resource(models.Model):
         permissions = (
             ('edit_any_resource', 'Can edit any metadata records'),               
         )
+        ordering = ['title']
     
     metadata_id = models.CharField(max_length=50)
     title = models.CharField(max_length=255, blank=True)
@@ -44,6 +45,7 @@ class ResourceCollection(models.Model):
         permissions = (
             ('edit_any_resource_collection', 'Can edit any metadata records'),               
         )
+        ordering = ['title']
     
     collection_id = models.CharField(max_length=50)
     title = models.CharField(max_length=255, blank=True)
