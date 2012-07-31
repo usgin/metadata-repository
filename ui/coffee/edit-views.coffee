@@ -166,6 +166,9 @@ class root.FilesView extends Backbone.View
           $('#new-file-form').ajaxSubmit {
             success: (data, status, xhr) ->
               # Update the UI, Available Files
+              # There's a little bit of voodoo happening here
+              #   I can't figure out why xhr.getResponseHeader is appending host information, 
+              #   but it is helpful!
               loc = xhr.getResponseHeader('Location')
               filename = loc.split('/').pop()
               f = new FileAttachment { filename: filename, location: loc }
@@ -183,34 +186,53 @@ class root.FilesView extends Backbone.View
           $(this).remove()
     }
 
-  deleteFile: (evt) ->
-    id = evt.currentTarget.id.split('-')[0]
+  deleteFile: (evt, confirm = true) ->
+    id = evt.currentTarget.id.replace '-deleteFile', ''
+    self = @
     
-    # Confirm that they want to remove this record from the specified collection
-    $('#page-content').append @confirmationJade.content { title: 'Delete File?', message: "Delete #{id}?" }
-    $('#dialog-confirm').dialog {
-      resizable: false
-      height: 160
-      modal: true
-      buttons:
-        "Remove": ->
-          opts = 
-            type: 'DELETE'
-            url: "/metadata/record/#{root.app.record.id}/file/#{id}"
-            error: (err) ->
-              console.log err
-            success: (data, status, xhr) ->
-              # Update the UI, available files
-              f = root.app.filesView.model.get id
-              root.app.filesView.model.remove f
-              root.app.filesView.render()               
-          $.ajax opts
-          $(this).dialog 'close'
-          $(this).remove()
-        Cancel: ->
-          $(this).dialog 'close'
-          $(this).remove()
-    }
+    removeIt = ->
+      opts = 
+        type: 'DELETE'
+        url: "/metadata/record/#{root.app.record.id}/file/#{id}"
+        error: (err) ->
+          console.log err
+        success: (data, status, xhr) ->
+          # Update the UI, available files
+          f = self.model.get id
+          self.model.remove f
+          self.render()
+          
+          # Update the UI, links
+          linkView = root.app.linksView.getLinkViewByUrl f.get 'location'
+          linkView.removeLink(null, false) if linkView?
+      $.ajax opts
+      
+    if confirm
+      # Confirm that they want to remove this record from the specified collection
+      $('#page-content').append @confirmationJade.content { title: 'Delete File?', message: "Delete #{id}?" }
+      $('#dialog-confirm').dialog {
+        resizable: false
+        height: 160
+        modal: true
+        buttons:
+          "Remove": ->
+            removeIt()                                                         
+            $(this).dialog 'close'
+            $(this).remove()
+          Cancel: ->
+            $(this).dialog 'close'
+            $(this).remove()
+      }
+    else
+      removeIt()
+    
+  getFileByUrl: (searchUrl) ->
+    results = @model.filter (file) ->
+      fileExp = new RegExp file.get 'location'
+      return searchUrl.match(fileExp)?
+    switch results.length
+      when 0 then return null
+      else return results[0] 
 
 # Views representing collections: Authors, Distributors, Links  
 class root.AuthorsView extends Backbone.View
@@ -308,9 +330,10 @@ class root.LinksView extends Backbone.View
   render: ->
     @$el.empty()
     @$el.append @jade.content {}
-    #$(@parentId).append @$el
     @$el.insertAfter $ '#distributors'
-    (new root.LinkView { model: model }).render() for model in @model.models
+    @linkViews = ( new root.LinkView { model: model } for model in @model.models )
+    @linkViews.forEach (link) ->
+      link.render()
     root.app.autocompleteDistributors()
     return @
     
@@ -339,11 +362,20 @@ class root.LinksView extends Backbone.View
     root.app.linksView.render()
     
   getLinkByUrl: (searchUrl) ->
+    exp = new RegExp searchUrl
     results = @model.filter (link) ->
-      return link.get('URL') is searchUrl
+      return link.get('URL').match(exp)?
     switch results.length
       when 0 then return null
-      else return results[0] 
+      else return results[0]
+      
+  getLinkViewByUrl: (searchUrl) ->
+    exp = new RegExp searchUrl
+    results = _.filter @linkViews, (linkView) ->
+      return linkView.model.get('URL').match(exp)?
+    switch results.length
+      when 0 then return null
+      else return results[0]
           
 # Additional Styling Functions
 resizeInputs = (index, ele) ->
@@ -543,24 +575,35 @@ class root.LinkView extends Backbone.View
   collapse: (evt) ->
     collapseFieldsets evt.target
     
-  removeLink: (evt) ->
+  removeLink: (evt, confirm = true) ->
     # Confirm that they want to remove this record from the specified collection
     self = @
-    $('#page-content').append @confirmationJade.content { title: 'Remove Link?', message: "Are you sure you want to remove this link?" }
-    $('#dialog-confirm').dialog {
-      resizable: false
-      height: 160
-      modal: true
-      buttons:
-        "Remove": ->          
-          root.app.linksView.model.remove self.model
-          root.app.linksView.render()
-          $(this).dialog 'close'
-          $(this).remove()
-        Cancel: ->
-          $(this).dialog 'close'
-          $(this).remove()
-    }    
+    removeIt = ->
+      root.app.linksView.model.remove self.model
+      root.app.linksView.render()
+    
+    if confirm
+      $('#page-content').append @confirmationJade.content { title: 'Remove Link?', message: "Are you sure you want to remove this link?" }
+      $('#dialog-confirm').dialog {
+        resizable: false
+        height: 160
+        modal: true
+        buttons:
+          "Remove": ->
+            # Update the UI, remove the file
+            file = root.app.filesView.getFileByUrl self.model.get 'URL'
+            $("##{file.get('filename').replace('.', '\\.')}-deleteFile").trigger('click', false) if file?
+            
+            # Update the UI, remove the link          
+            removeIt()
+            $(this).dialog 'close'
+            $(this).remove()
+          Cancel: ->
+            $(this).dialog 'close'
+            $(this).remove()
+      }
+    else
+      removeIt() 
   
   changeAttribute: (evt) ->
     ele = $ evt.target
