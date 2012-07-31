@@ -58,9 +58,11 @@ def sync():
         # Contact tracking
         contacts = record['Authors'] + record['Distributors']
         for contact in contacts:
-            if ('Name' not in contact.keys() or contact['Name'] == 'No Name Was Given' or contact['Name'] == '') and 'OrganizationName' in contact.keys():
-                name = contact['OrganizationName']
-            else: name = contact['Name']
+            personName = contact.get('Name', 'No Name Was Given')
+            orgName = contact.get('OrganizationName', 'No Name Was Given')
+            if personName in [ 'No Name Was Given', '' ]: name = orgName
+            else: name = personName
+                               
             try:
                 Contact.objects.get(name=name)
             except Contact.DoesNotExist:
