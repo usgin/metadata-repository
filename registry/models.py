@@ -9,7 +9,7 @@ class Resource(models.Model):
         ordering = ['title']
     
     metadata_id = models.CharField(max_length=50)
-    title = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=500, blank=True)
     published = models.BooleanField()
     gis_file_location = models.CharField(max_length=50, blank=True)
     wfs_feature_id = models.CharField(max_length=50, blank=True)
