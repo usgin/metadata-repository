@@ -8,8 +8,10 @@ ResourceCollection = get_model('registry', 'ResourceCollection')
 
 def collection(req, collectionId):
     col = get_object_or_404(ResourceCollection, collection_id=collectionId)
-    children = col.closure(req.user)
-    return render_to_response('collection', locals(), context_instance=RequestContext(req))
+    
+    # Find the closure (all children) for this collection
+    result = [ col.jsonClosure(req.user) ]
+    return render_to_response('repository/browse.jade', {'collections': json.dumps(result)}, context_instance=RequestContext(req))
     
 def collection_resource(req, collectionId):
     col = get_object_or_404(ResourceCollection, collection_id=collectionId)
@@ -18,17 +20,9 @@ def collection_resource(req, collectionId):
     # Gather information about ALL editable collections for the add-to-collection dialog
     editable_cols = [ { 'id': col.collection_id, 'title': col.title } for col in ResourceCollection.objects.all() if col.can_edit(req.user) ]
     
-    # Get a blank resource, add this collection to it
-    #blank = proxyRequest('/metadata/schema/metadata/?emptyInstance=true', 'GET').content
-    #blank = json.loads(blank)
-    #blank['Collections'] = [ collectionId ]
-    #blank = json.dumps(blank)
-    
     # Construct template context and render
     context = {
         'jsonUpdate': json.dumps(False),
-        #'jsonRecord':blank,
-        #'record': json.loads(blank),
         'collections': json.dumps(collections),
         'update': False,         
         'allCollections': json.dumps(editable_cols)
