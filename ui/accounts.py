@@ -121,6 +121,7 @@ def create_user(validForm):
     update_user(user, validForm)
     
 def update_user(user, validForm):
+    user.is_active = False
     user.first_name = validForm.cleaned_data['first_name']
     user.last_name = validForm.cleaned_data['last_name']
     user.save()
