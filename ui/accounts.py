@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django import forms
@@ -55,7 +55,7 @@ def profile(req):
         form = UpdateForm(req.POST)
         if form.is_valid():
             update_user(req.user, form)
-            return HttpResponse('Not Implemented Yet', status=501)            
+            return HttpResponseRedirect('/accounts/profile?updated=True')            
     else:        
         user_data = {'first_name': req.user.first_name,
                      'last_name': req.user.last_name,
@@ -77,7 +77,8 @@ def profile(req):
                'block_title': 'Welcome, %s' % req.user.username,
                'submit_text': 'Save Changes',
                'update': True,
-               'title': 'Profile'}
+               'title': 'Profile',
+               'showUpdateMessage': req.GET.get('updated', False) == 'True'}
     return render_to_response('accounts/register.jade', context, context_instance=RequestContext(req))
 
 def register(req):
@@ -89,7 +90,7 @@ def register(req):
         form = RegistrationForm(req.POST)
         if form.is_valid():
             create_user(form)
-            return HttpResponse('Not Implemented Yet', status=501)
+            return render_to_response('accounts/thanks.jade', {}, context_instance=RequestContext(req))
     else:
         form = RegistrationForm()
     
@@ -99,7 +100,7 @@ def register(req):
                'update': False,
                'title': 'Register'}        
     return render_to_response('accounts/register.jade', context, context_instance=RequestContext(req))
-
+    
 def change_password(req):
     allowed = [ 'GET', 'POST' ] 
     if req.method not in allowed:
@@ -109,7 +110,7 @@ def change_password(req):
         form = ChangePasswordForm(req.user, req.POST)
         if form.is_valid():
             req.user.set_password(form.cleaned_data['new_password'])
-            return HttpResponse('Not Implemented Yet', status=501)
+            return HttpResponseRedirect('/accounts/profile?updated=True')
     else:
         form = ChangePasswordForm(req.user)
         

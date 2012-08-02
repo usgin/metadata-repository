@@ -16,7 +16,9 @@ block scripts
 block page-content
 	#register-form-block
 		#form-title.block-title= block_title
-		#form-content.block-content			
+		#form-content.block-content
+			if showUpdateMessage
+				center#update-message Your Information Has Been Updated!
 			form(method="post")
 				{% csrf_token %}
 				{{ form.non_field_errors }}
@@ -66,15 +68,11 @@ block page-content
 						li
 							{{ form.phone.errors }}
 							{{ form.phone.label_tag }} {{ form.phone }}
-				fieldset
-					legend Prove You Aren't A Robot
-					center
-						{{ form.captcha }}
-						
+				if not update
+					fieldset
+						legend Prove You Aren't A Robot
+						center
+							{{ form.captcha }}
+							
 				center
 					input(type="submit", value= submit_text)
-	if update
-		#change-password-dialog.hidden(title="Change Password")
-			form(method='post', action='/accounts/profile?password=true')
-				{{ pass_form.as_ul }}
-				input(type="submit", value="Change Password")
