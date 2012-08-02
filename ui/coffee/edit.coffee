@@ -160,10 +160,10 @@ $(document).ready ->
                 console.log err
               success: (data, status, xhr) ->
                 if update
-                  window.location.reload()
+                  window.location.href = "/repository/resource/#{root.app.record.id}/"
                 else
                   id = xhr.getResponseHeader('Location').match(/\/(.{32})\/$/)[1]
-                  window.location.href = "/repository/resource/#{id}/edit"
+                  window.location.href = "/repository/resource/#{id}/"
             $.ajax opts
             $(this).dialog 'close'
             $(this).remove()
