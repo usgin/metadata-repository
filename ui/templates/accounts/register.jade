@@ -1,0 +1,80 @@
+extends ./base
+
+block page-title
+	title= title
+	
+block styles
+	link(rel="stylesheet/less", type="text/css", href="/static/css/register.less")
+	if update
+		link(rel="stylesheet", type="text/css", href="/static/css/jqueryui/jquery-ui-1.8.16.custom.css")
+
+block scripts
+	if update
+		script(type="application/javascript", src="/static/lib/jquery-ui-1.8.16.custom.min.js")
+		script(type="application/javascript", src="/static/js/register.js")		
+					
+block page-content
+	#register-form-block
+		#form-title.block-title= block_title
+		#form-content.block-content			
+			form(method="post")
+				{% csrf_token %}
+				{{ form.non_field_errors }}
+				fieldset
+					legend Login Information
+					if update
+						center
+							#update-password Click to Change Your Password					
+					else
+						ul
+							li.registration-required
+								{{ form.username.errors }}
+								{{ form.username.label_tag }} {{ form.username }}
+							li.registration-required
+								{{ form.password.errors }}
+								{{ form.password.label_tag }} {{ form.password }}
+				fieldset
+					legend Basic Information
+					ul
+						li.registration-required
+							{{ form.first_name.errors }}
+							{{ form.first_name.label_tag }} {{ form.first_name }}
+						li.registration-required
+							{{ form.last_name.errors }}
+							{{ form.last_name.label_tag }} {{ form.last_name }}
+						li
+							{{ form.organization_name.errors }}
+							{{ form.organization_name.label_tag }} {{ form.organization_name }}
+						li.registration-required
+							{{ form.email.errors }}
+							{{ form.email.label_tag }} {{ form.email }}
+				fieldset
+					legend Contact Information
+					ul
+						li
+							{{ form.street_address.errors }}
+							{{ form.street_address.label_tag }} {{ form.street_address }}
+						li
+							{{ form.city.errors }}
+							{{ form.city.label_tag }} {{ form.city }}
+						li
+							{{ form.state.errors }}
+							{{ form.state.label_tag }} {{ form.state }}
+						li
+							{{ form.zip.errors }}
+							{{ form.zip.label_tag }} {{ form.zip }}
+						li
+							{{ form.phone.errors }}
+							{{ form.phone.label_tag }} {{ form.phone }}
+				fieldset
+					legend Prove You Aren't A Robot
+					center
+						{{ form.captcha }}
+						
+				center
+					input(type="submit", value= submit_text)
+	if update
+		#change-password-dialog.hidden(title="Change Password")
+			form(method='post', action='/accounts/profile?password=true')
+				{{ pass_form.as_ul }}
+				input(type="submit", value="Change Password")

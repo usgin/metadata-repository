@@ -1,0 +1,46 @@
+@import "base";
+
+#register-form-block {
+  width: 500px;
+  ul {
+    list-style-type: none;
+    li {
+      margin-bottom: 3px;
+      &.registration-required {
+        input {
+          border: 3px solid @orange-color;
+        }
+      }
+    }
+    &.errorlist {
+      font-size: 12px;
+      font-weight: bold;
+      color: @orange-color;
+      li {
+        margin-left: 45px;
+      }
+    }
+  }
+  fieldset {
+    padding: 5px;
+    margin-bottom: 10px;
+    legend {
+      font-size: 14px;
+    }
+  }
+  label {
+    color: @menu-color;
+    font-size: 12px;
+    padding-right: 5px;
+    display: inline-block;
+    width: 115px;
+    text-align: right;
+  }
+  input {
+    padding: 2px;
+    width: 250px;
+    &[type="submit"] {
+      height: 35px;
+    }
+  }
+}

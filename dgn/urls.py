@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^accounts/logout', 'django.contrib.auth.views.logout_then_login'),
     url(r'^accounts/profile', 'ui.accounts.profile'),
     url(r'^accounts/register', 'ui.accounts.register'),
+    url(r'^accounts/change-password', 'ui.accounts.change_password'),
     url(r'^repository/', include('ui.repository_urls'))
 )
