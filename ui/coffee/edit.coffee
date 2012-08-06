@@ -52,10 +52,11 @@ $(document).ready ->
           root.app.trigger 'contactsLoaded'
       $.ajax opts
       
-      # Event listeners
+      # Parse the record once schemas are loaded
       @on 'schemasLoaded', ->
         @parseRecord()
-        
+      
+      # Initialize the contacts dialog once contacts are loaded
       @on 'contactsLoaded', ->
         $('#page-content').append @contactJade.content {}
         $('#contact-selector').autocomplete {
@@ -70,6 +71,7 @@ $(document).ready ->
             'Add selected contact': ->
               $(this).dialog 'close'
             Cancel: ->
+              $('#contact-selector').val ''
               $(this).dialog 'close'
         }
         

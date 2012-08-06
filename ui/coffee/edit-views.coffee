@@ -234,6 +234,7 @@ class root.FilesView extends Backbone.View
       when 0 then return null
       else return results[0] 
 
+
 # Views representing collections: Authors, Distributors, Links  
 class root.AuthorsView extends Backbone.View
   id: 'authors'
@@ -269,11 +270,19 @@ class root.AuthorsView extends Backbone.View
     dialog = $('#select-contact-dialog')
     dialog.unbind()
     dialog.bind 'dialogclose', (evt, ui) ->
-      contact = root.app.contacts[$('#contact-selector').val()]
+      # Don't do anything if no one was selected
+      contactName = $('#contact-selector').val()
+      return if contactName is ''
+      
+      # Create the new author and add it to the page
+      contact = root.app.contacts[contactName]
       newAuthor = new root.Contact contact
       root.app.authorsView.model.add newAuthor
       authorView = new root.AuthorView { model: newAuthor }    
       authorView.render()
+      
+      # Reset the contact dialog
+      $('#contact-selector').val ''
     dialog.dialog 'open'
     
 class root.DistributorsView extends Backbone.View
@@ -311,13 +320,21 @@ class root.DistributorsView extends Backbone.View
     dialog = $('#select-contact-dialog')
     dialog.unbind()
     dialog.bind 'dialogclose', (evt, ui) ->
-      contact = root.app.contacts[$('#contact-selector').val()]
+      # Don't do anything if no one was selected
+      contactName = $('#contact-selector').val()
+      return if contactName is ''
+      
+      # Create the new distributor and add it to the page
+      contact = root.app.contacts[contactName]
       newDist = new root.Contact contact
       root.app.distributorsView.model.add newDist
       distView = new root.DistributorView { model: newDist }    
       distView.render()
+      
+      # Reset the contact dialog
+      $('#contact-selector').val ''
     dialog.dialog 'open'
-    
+  
 class root.LinksView extends Backbone.View
   id: 'links'
   
