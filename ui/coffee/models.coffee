@@ -24,6 +24,22 @@ class root.Resource extends Backbone.Model
     if ( prop for prop, value of options ).length is 0
       getEmptyInstance @, 'metadata'
       
+  getFirstAuthorName: ->
+    authors = @get 'Authors'
+    return 'No Name Was Given' if authors.length is 0
+    return @getContactName authors[0]    
+    
+  getContactName: (contact) ->
+    defName = 'No Name Was Given'
+    name = if contact.Name? then contact.Name else defName
+    org = if contact.OrganizationName? then contact.OrganizationName else defName
+    
+    if name is '' then name = defName
+    if org is '' then org = defName
+    
+    result = if name is defName then org else name
+    return result    
+      
 class root.Resources extends Backbone.Collection
   model: Resource
   
