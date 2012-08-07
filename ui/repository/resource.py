@@ -121,7 +121,7 @@ def edit(req, resourceId):
     # Block the page from user's without appropriate permission
     res = get_object_or_404(Resource, metadata_id=resourceId)
     if not res.can_edit(req.user):
-        return HttpResponseNotAllowed()
+        return HttpResponseForbidden()
     
     # Render the page
     return edit_responder(req, resourceId)

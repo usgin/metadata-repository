@@ -397,6 +397,7 @@ class root.LinksView extends Backbone.View
 # Additional Styling Functions
 resizeInputs = (index, ele) ->
   ele = $(ele)
+  return if ele.children('input').attr('attr') is 'Published'
   eleWidth = ele.innerWidth()
   border = if ele.hasClass 'required' then 3 else 5
   spanWidth = if ele.children('span').length > 0 then ele.children('span').width() - border else 0
