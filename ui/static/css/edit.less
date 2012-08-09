@@ -64,6 +64,20 @@
   display: none !important;
 }
 
+.invalid {
+  border: 3px solid @label-color !important;
+}
+
+#validation-message-container {
+  color: @label-color;
+  font-weight: bold;
+  padding-bottom: 10px;
+  li {
+    font-weight: normal;
+    margin-left: 15px;
+  }  
+}
+
 ul {
   list-style-type: none;
 }
@@ -236,7 +250,7 @@ legend {
   top: 0px;
 }
 
-.delete-button, .save-button {
+.delete-button, .save-button, .validate-button {
   margin-left: 30px;
   margin-bottom: 10px;
   padding: 4px;

@@ -79,9 +79,10 @@ $(document).ready ->
       $("#site-info-block").insertAfter "#map-block"
       
       # Setup Save and Delete buttons
-      $('.save-button, .delete-button').button()
+      $('.save-button, .delete-button, .validate-button').button()
       $('.save-button').click @saveRecord
       $('.delete-button').click @deleteRecord
+      $('.validate-button').click @validateRecord
       
     parseRecord: ->
       # Parse the record into its components.      
@@ -159,6 +160,8 @@ $(document).ready ->
               parseData: false
               data: JSON.stringify root.app.writeOutRecord()
               error: (err) ->
+                if err.status is 400 and err.responseText.match 'validation'
+                  root.app.validateRecord()
                 console.log err
               success: (data, status, xhr) ->
                 if update
@@ -206,5 +209,51 @@ $(document).ready ->
       links = { Links: (JSON.parse JSON.stringify link for link in @linksView.model.models) }
       collections = { Collections: ((JSON.parse JSON.stringify collection).id for collection in @collectionsView.model.models) }
       return _.extend recordJson, basics, geo, authors, distributors, links, collections
+    
+    # This is kinda lame, since validation is being provided by the metadata-server already
+    #   but this makes it easier to track which fields need to be adjusted...
+    validateRecord: ->
+      messages = []
+      # Check that required content is filled in
+      $('.required').each ->
+        $(this).removeClass 'invalid'
+        userInput = $(this).find('[attr]')[0]
+        if userInput.tagName.toLowerCase() not in ['ul'] and $(userInput).val() in ['', null]
+          $(this).addClass 'invalid'
+          messages.push "A #{$(userInput).attr('attr')} is required"
+      
+      # Check that at least one Author and Distributor are listed
+      $('#authors-list, #distributors-list, #keywords-list').each ->
+        $(this).parent('fieldset').removeClass 'invalid'
+        if $(this).children('li').length is 0
+          $(this).parent('fieldset').addClass 'invalid'
+          type = $(this).attr('id').split('-')[0]
+          type = type.replace type[0], type[0].toUpperCase()
+          type = type.substring 0, type.length - 1
+          messages.push "At least one #{type} is required."
+      
+      # Check that contacts specify a name or org name
+      $('[attr="OrganizationName"]').each ->
+        orgLi = $(this).parent('li')
+        nameLi = orgLi.prev('li')        
+        orgLi.removeClass 'invalid'
+        nameLi.removeClass 'invalid'
+        orgName = $(this).val()
+        name = nameLi.children('[attr="Name"]').val()
+        if name is '' and orgName is ''
+          orgLi.addClass 'invalid'
+          nameLi.addClass 'invalid'
+          messages.push "A contact must specify either a Name or an Organization Name"
+      
+      # List validation messages
+      msgContainer = $('#validation-message-container')
+      if messages.length is 0
+        msgContainer.addClass 'hidden'
+        msgContainer.children().each ->
+          $(this).remove()
+      else
+        msgContainer.removeClass 'hidden'
+        _.forEach messages, (msg) ->
+          msgContainer.append "<li class='validation-error'>#{msg}</li>"
       
   root.app = new App()

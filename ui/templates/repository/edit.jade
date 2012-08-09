@@ -59,13 +59,17 @@ block page-content
 	#editor-header.clear-block
 		if update
 			.delete-button Delete
+			.validate-button Validate
 			.save-button Save
 			h1#editor-title Edit an Existing Resource
 		else
-			.save-button Save
+			.validate-button Validate
+			.save-button Save			
 			h1#editor-title Create a New Resource
+	ul#validation-message-container.hidden Validation Errors:
 	#resource-container
 	if update
 		.delete-button Delete
+	.validate-button Validate
 	.save-button Save
 	
