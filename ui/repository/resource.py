@@ -55,11 +55,20 @@ def resource(req, resourceId):
     author_names = [ getName(author) for author in record['Authors'] ]
     
     #Stringify the Publication Date
-    try:
-        pubDate = datetime.datetime.strptime(record['PublicationDate'], '%Y-%m-%dT%H:%M:%S')
-    except ValueError:
-        pubDate = datetime.datetime.strptime(record['PublicationDate'], '%Y-%m-%dT%H:%M:%SZ')
-    pub_date = pubDate.strftime('%b %d, %Y')
+    acceptable_time_formats =[
+        '%Y-%m-%dT%H:%M:%S',
+        '%Y-%m-%dT%H:%M:%S%z',
+        '%Y-%m-%dT%H:%M:%SZ'                                      
+    ]
+    pubDate = None
+    for time_format in acceptable_time_formats:    
+        try:
+            pubDate = datetime.datetime.strptime(record['PublicationDate'], time_format)
+            break
+        except ValueError:
+            continue
+    if pubDate is None: pub_date = record['PublicationDate']
+    else: pub_date = pubDate.strftime('%b %d, %Y')
     
     # Build render context for the page
     context = {
