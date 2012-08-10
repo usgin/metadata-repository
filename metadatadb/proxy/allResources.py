@@ -20,10 +20,13 @@ def allResources(req, resourceType):
     
     @login_required
     def newResource(req, resourceType):
+        body = json.loads(req.body)
+        body['MetadataContact'] = req.user.get_profile().to_contact()
+        
         kwargs = {
             'path': '/metadata/' + resourceType + '/',
             'method': req.method,
-            'body': req.body,
+            'body': json.dumps(body),
             'headers': { 'Content-Type': 'application/json' }          
         }
         response = proxyRequest(**kwargs)
