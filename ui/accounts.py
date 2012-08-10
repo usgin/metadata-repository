@@ -1,10 +1,15 @@
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.core.mail import mail_admins
+from django.contrib.sites.models import Site
+from django.conf import settings
 from django import forms
 from django.contrib.auth.models import User
 from models import UserProfile
 from captcha.fields import ReCaptchaField
+
+url_base = 'http://%s' % Site.objects.get(id=settings.SITE_ID).domain
 
 class UpdateForm(forms.Form):
     first_name = forms.CharField(max_length=50)
@@ -89,7 +94,11 @@ def register(req):
     if req.method == 'POST':
         form = RegistrationForm(req.POST)
         if form.is_valid():
-            create_user(form)
+            user = create_user(form)
+            mail_admins('New Repository User',
+                      '%s %s has created a new user account under the username "%s"' % (user.first_name, user.last_name, user.username),                                            
+                      fail_silently = True,
+                      html_message = '%s %s has created a <a href="%s/admin/auth/user/%s/">new user account under the username "%s"</a>' % (user.first_name, user.last_name, url_base, user.id, user.username))            
             return render_to_response('accounts/thanks.jade', {}, context_instance=RequestContext(req))
     else:
         form = RegistrationForm()
@@ -119,7 +128,8 @@ def change_password(req):
 def create_user(validForm):
     user = User.objects.create_user(validForm.cleaned_data['username'], validForm.cleaned_data['email'], validForm.cleaned_data['password'])
     update_user(user, validForm)
-    
+    return user
+
 def update_user(user, validForm):
     user.is_active = False
     user.first_name = validForm.cleaned_data['first_name']

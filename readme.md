@@ -4,3 +4,14 @@
 - [lxml](http://lxml.de/index.html): `easy_install lxml`
 - [poster](http://pypi.python.org/pypi/poster/): `easy_install poster`
 - [django-recaptcha](https://github.com/praekelt/django-recaptcha): `easy_install django-recaptcha`
+
+## Required settings defined in settings.py
+	RECAPTCHA_PUBLIC_KEY
+	RECAPTCHA_PRIVATE_KEY
+	EMAIL_HOST
+	EMAIL_PORT
+	EMAIL_HOST_USER
+	EMAIL_HOST_PASSWORD
+	EMAIL_USE_TLS
+	SERVER_EMAIL
+	SITE_ID
