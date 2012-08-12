@@ -85,23 +85,29 @@ class ResourceCollection(models.Model):
     
     # Same as above, but returns an object that can be serialized into JSON string with json.dumps
     def jsonClosure(self, user):
+        # Get the collection's child collections
         child_collections = [ child.oneLevelJsonClosure(user) for child in self.children() ]        
         
         # Setup for determining permissions as efficiently as possible
-        can_edit = False        
-        all_resources = self.resource_set.all().prefetch_related('editors')
-        # First determine if the user is administrator or not
-        if user.has_perm('registry.edit_any_resource'):            
-            can_edit = True
-        # Not admin, but are they a collection editor? If so they can edit any resource in the collection
+        can_edit = False
+        # Anonymous users are easy...
+        if user.is_anonymous:
+            viewable_resources = self.resource_set.filter(published=True)
+        # ... but if they aren't anonymous, then there are some editable checks to go through
         else:
-            collection_editors = self.editors.all().values_list('pk', flat=True)
-            can_edit = user.has_perm('registry.edit_any_resource_collection') or user.pk in collection_editors
-        # Now check if they have edit permissions at this point. If not, we have check if they can view        
-        if can_edit:
-            viewable_resources = all_resources        
-        else:
-            viewable_resources = [ res for res in all_resources if user.pk in res.editors.values_list('pk', flat=True) or res.published ]                        
+            all_resources = self.resource_set.all().prefetch_related('editors')            
+            # First determine if the user is administrator or not
+            if user.has_perm('registry.edit_any_resource'):            
+                can_edit = True
+            # Not admin, but are they a collection editor? If so they can edit any resource in the collection
+            else:
+                collection_editors = self.editors.all().values_list('pk', flat=True)
+                can_edit = user.has_perm('registry.edit_any_resource_collection') or user.pk in collection_editors
+            # Now check if they have edit permissions at this point. If not, we have check if they can view        
+            if can_edit:
+                viewable_resources = all_resources        
+            else:
+                viewable_resources = [ res for res in all_resources if user.pk in res.editors.values_list('pk', flat=True) or res.published ]                        
         # Build the JSON object that need to be sent to the client
         viewable_resources = [ {'title':res.title,'id':res.metadata_id, 'can_edit': can_edit} for res in viewable_resources]
         # Put it all together
