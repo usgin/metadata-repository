@@ -129,7 +129,8 @@ class root.ChildCollectionView extends Backbone.View
         self.model = new ResourceCollection response
         childView = self.parentView.getView 'collection', response.id        
         childView.renderChildren()
-        childView.$el.find("##{id}-container").removeClass 'not-populated'                
+        childView.$el.find("##{id}-container").removeClass 'not-populated'
+        return 
     $.ajax opts
         
   renderChildren: ->
@@ -147,12 +148,16 @@ class root.ChildCollectionView extends Backbone.View
       ul.append resourceView.render().el
     return @
     
-  events:
-    'click .expand:first': 'expand'
-    'click .not-populated': 'populateCollection'
-    'click .addCollection:first': 'addCollection'
-    'click .addRecord:first': 'addRecord'
-    'click .deleteCollection:first': 'deleteCollection'
+  events: ->
+    populateLink = "click ##{@model.id}-container.not-populated"
+    events = {
+      'click .expand:first': 'expand'      
+      'click .addCollection:first': 'addCollection'
+      'click .addRecord:first': 'addRecord'
+      'click .deleteCollection:first': 'deleteCollection'
+    }
+    events[populateLink] = 'populateCollection'
+    return events
     
   expand: (event)->
     ul = @$el.find('ul.record-list').first()
