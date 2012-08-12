@@ -68,7 +68,7 @@ class root.TopCollectionView extends Backbone.View
       ul.append childView.render().el
     @model.resources.forEach (resource) ->
       resourceView = new root.ChildResourceView { model: resource, parent: thisView }
-      this.resourceViews.push resourceView
+      thisView.resourceViews.push resourceView
       ul.append resourceView.render().el    
     return @
     
@@ -113,8 +113,7 @@ class root.ChildCollectionView extends Backbone.View
     
   render: ->
     @$el.empty()
-    @$el.append @jade.content @model.toJSON()
-    thisView = @
+    @$el.append @jade.content @model.toJSON()    
     @renderChildren()
     
   populateCollection: (event) -> 
