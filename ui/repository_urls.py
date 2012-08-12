@@ -14,5 +14,6 @@ urlpatterns = patterns('ui.repository',
     url(r'^resource/(?P<resourceId>.*)/edit$', 'edit'),
     url(r'^resource/(?P<resourceId>.*)/$', 'resource'),  
     url(r'^collection/(?P<collectionId>.*)/$', 'collection'),
+    url(r'^collection/(?P<collectionId>.*)\.json', 'populateCollection'),
     url(r'^collection/(?P<collectionId>.*)/resource/new', 'collection_resource'),                     
 ) 

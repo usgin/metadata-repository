@@ -85,16 +85,49 @@ class ResourceCollection(models.Model):
     
     # Same as above, but returns an object that can be serialized into JSON string with json.dumps
     def jsonClosure(self, user):
+        child_collections = [ child.oneLevelJsonClosure(user) for child in self.children() ]        
+        
+        # Setup for determining permissions as efficiently as possible
+        can_edit = False        
+        all_resources = self.resource_set.all().prefetch_related('editors')
+        # First determine if the user is administrator or not
+        if user.has_perm('registry.edit_any_resource'):            
+            can_edit = True
+        # Not admin, but are they a collection editor? If so they can edit any resource in the collection
+        else:
+            collection_editors = self.editors.all().values_list('pk', flat=True)
+            can_edit = user.has_perm('registry.edit_any_resource_collection') or user.pk in collection_editors
+        # Now check if they have edit permissions at this point. If not, we have check if they can view        
+        if can_edit:
+            viewable_resources = all_resources        
+        else:
+            viewable_resources = [ res for res in all_resources if user.pk in res.editors.values_list('pk', flat=True) or res.published ]                        
+        # Build the JSON object that need to be sent to the client
+        viewable_resources = [ {'title':res.title,'id':res.metadata_id, 'can_edit': can_edit} for res in viewable_resources]
+        # Put it all together
+        result = {
+            'title': self.title,
+            'description': self.description,
+            'id': self.collection_id,
+            'can_edit': can_edit,            
+            'child_collections': child_collections,
+            'child_resources': viewable_resources                
+        }                
+        # And return it
+        return result
+    
+    # Don't return any of the children    
+    def oneLevelJsonClosure(self, user):
         result = {
             'title': self.title,
             'description': self.description,
             'id': self.collection_id,
             'can_edit': self.can_edit(user),
-            'child_collections': [ child.jsonClosure(user) for child in self.children() ],
-            'child_resources': [ { 'title': resource.title, 'id': resource.metadata_id, 'can_edit': resource.can_edit(user) } for resource in self.resource_set.all() if resource.can_view(user) ]        
+            'child_collections': [],
+            'child_resources': []        
         }
         return result
-
+    
 class Contact(models.Model):
     class Meta:
         ordering = ['name']
