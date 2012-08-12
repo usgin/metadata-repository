@@ -36,7 +36,13 @@ addNewCollection = (view, collectionId) ->
         $(this).remove()
   }
   
-  
+getView = (viewType, id) ->
+    self = @
+    viewsName = "#{viewType}Views"
+    childView = _.filter self[viewsName], (view) ->
+      view.model.id is id
+    return childView[0]
+      
 class root.TopCollectionView extends Backbone.View
   jade: new root.Jade '/static/templates/top-collection.jade'
   newCollectionJade: new root.Jade '/static/templates/add-new-collection.jade'
@@ -54,18 +60,22 @@ class root.TopCollectionView extends Backbone.View
     @$el.append @jade.content @model.toJSON()
     ul = @$el.find('.collection-content > .record-list').first()
     thisView = @
+    @collectionViews = []
+    @resourceViews = []
     @model.collections.forEach (collection) ->
       childView = new root.ChildCollectionView { model: collection, parent: thisView }
+      thisView.collectionViews.push childView
       ul.append childView.render().el
     @model.resources.forEach (resource) ->
       resourceView = new root.ChildResourceView { model: resource, parent: thisView }
-      ul.append resourceView.render().el
+      this.resourceViews.push resourceView
+      ul.append resourceView.render().el    
     return @
     
   events:
     'click .expand:first': 'expand'
     'click .addCollection:first': 'addCollection'
-    'click .addRecord:first': 'addRecord'
+    'click .addRecord:first': 'addRecord'    
     
   expand: ->
     ul = @$el.find('.collection-content > .record-list').first()
@@ -83,8 +93,10 @@ class root.TopCollectionView extends Backbone.View
     addNewCollection @, @collectionId
     
   addRecord: (event) ->
-    window.location.href = "/repository/collection/#{@collectionId}/resource/new"
-   
+    window.location.href = "/repository/collection/#{@collectionId}/resource/new"    
+    
+  getView: getView
+       
 class root.ChildCollectionView extends Backbone.View
   jade: new root.Jade '/static/templates/child-collection.jade'
   newCollectionJade: new root.Jade '/static/templates/add-new-collection.jade'
@@ -102,23 +114,47 @@ class root.ChildCollectionView extends Backbone.View
   render: ->
     @$el.empty()
     @$el.append @jade.content @model.toJSON()
-    ul = @$el.find('ul.record-list').first()
     thisView = @
+    @renderChildren()
+    
+  populateCollection: (event) -> 
+    id = $(event.currentTarget).attr('id').split('-container')[0]
+    self = @    
+    opts =
+      type: 'GET'
+      dataType: 'json'
+      url: "/repository/collection/#{ id }.json"
+      success: (response, status, xhr) ->
+        ul = $(event.currentTarget).next()        
+        self.model = new ResourceCollection response
+        childView = self.parentView.getView 'collection', response.id        
+        childView.renderChildren()
+        childView.$el.find("##{id}-container").removeClass 'not-populated'                
+    $.ajax opts
+        
+  renderChildren: ->
+    thisView = @
+    ul = @$el.children('ul').first()
+    @collectionViews = []
+    @resourceViews = []
     @model.collections.forEach (collection) ->
       childView = new root.ChildCollectionView { model: collection, parent: thisView }
+      thisView.collectionViews.push childView
       ul.append childView.render().el
     @model.resources.forEach (resource) ->
       resourceView = new root.ChildResourceView { model: resource, parent: thisView }
+      thisView.resourceViews.push resourceView
       ul.append resourceView.render().el
     return @
     
   events:
     'click .expand:first': 'expand'
+    'click .not-populated': 'populateCollection'
     'click .addCollection:first': 'addCollection'
     'click .addRecord:first': 'addRecord'
     'click .deleteCollection:first': 'deleteCollection'
     
-  expand: ->
+  expand: (event)->
     ul = @$el.find('ul.record-list').first()
     tri = @$el.find('.collection-list-expand').first()
     if ul.hasClass('hidden')
@@ -129,7 +165,7 @@ class root.ChildCollectionView extends Backbone.View
       ul.addClass('hidden')
       tri.removeClass('ui-icon-triangle-1-s')
       tri.addClass('ui-icon-triangle-1-e')
-      
+          
   addCollection: (event) ->
     addNewCollection @, @collectionId
     
@@ -177,6 +213,9 @@ class root.ChildCollectionView extends Backbone.View
           $(this).dialog 'close'
           $(this).remove()
     }
+    
+  getView: getView
+  
 class root.ChildResourceView extends Backbone.View 
   jade: new root.Jade '/static/templates/child-resource.jade'
   confirmationJade: new root.Jade '/static/templates/confirmation-dialog.jade'

@@ -1,5 +1,5 @@
 from home import home
-from browse import browse
+from browse import browse, populateCollection
 from search import search
 from harvest import harvest
 from resource import resource, edit, new

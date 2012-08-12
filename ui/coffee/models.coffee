@@ -49,6 +49,7 @@ class root.ResourceCollection extends Backbone.Model
       title: @.get('title')
       description: @.get('description')
       can_edit: @.get('can_edit')
+      has_children: if @collections.length > 0 or @resources.length > 0 then true else false
       id: @id
       
   initialize: (options) ->
