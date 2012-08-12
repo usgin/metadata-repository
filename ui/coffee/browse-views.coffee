@@ -71,12 +71,21 @@ class root.TopCollectionView extends Backbone.View
       thisView.resourceViews.push resourceView
       ul.append resourceView.render().el    
     return @
-    
+  
+  ###  
   events:
     'click .expand:first': 'expand'
     'click .addCollection:first': 'addCollection'
     'click .addRecord:first': 'addRecord'    
-    
+  ###
+  
+  events: ->
+    events = {}
+    events['click .expand:first'] = 'expand'        
+    events["click ##{@model.id}-addCollection"] = 'addCollection'
+    events["click ##{@model.id}-addRecord"] = 'addRecord'            
+    return events
+      
   expand: ->
     ul = @$el.find('.collection-content > .record-list').first()
     tri = @$el.find('.collection-list-expand').first()
@@ -148,14 +157,12 @@ class root.ChildCollectionView extends Backbone.View
     return @
     
   events: ->
-    populateLink = "click ##{@model.id}-container.not-populated"
-    events = {
-      'click .expand:first': 'expand'      
-      'click .addCollection:first': 'addCollection'
-      'click .addRecord:first': 'addRecord'
-      'click .deleteCollection:first': 'deleteCollection'
-    }
-    events[populateLink] = 'populateCollection'
+    events = {}
+    events["click .expand:first"] = 'expand'
+    events["click ##{@model.id}-container.not-populated"] = 'populateCollection'    
+    events["click ##{@model.id}-addCollection"] = 'addCollection'
+    events["click ##{@model.id}-addRecord"] = 'addRecord'
+    events["click ##{@model.id}-deleteCollection"] = 'deleteCollection'        
     return events
     
   expand: (event)->
