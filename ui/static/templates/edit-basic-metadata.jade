@@ -1,11 +1,10 @@
 #resource-published.required.key-value
 	span.label Published / Visible to the public
-	div(style="display: inline-block; width:15%;")
-		center
-			if Published == true
-				input(type="checkbox", attr="Published", checked="checked")
-			else
-				input(type="checkbox", attr="Published")
+	div(style="display: inline-block; margin-left:15px;")		
+		if Published == true
+			input(type="checkbox", attr="Published", checked="checked")
+		else
+			input(type="checkbox", attr="Published")
 #resource-title.required.key-value
 	span.label Title
 	input(attr="Title", value="#{Title}")
