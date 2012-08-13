@@ -119,6 +119,7 @@ def change_password(req):
         form = ChangePasswordForm(req.user, req.POST)
         if form.is_valid():
             req.user.set_password(form.cleaned_data['new_password'])
+            req.user.save()
             return HttpResponseRedirect('/accounts/profile?updated=True')
     else:
         form = ChangePasswordForm(req.user)
@@ -127,11 +128,12 @@ def change_password(req):
     
 def create_user(validForm):
     user = User.objects.create_user(validForm.cleaned_data['username'], validForm.cleaned_data['email'], validForm.cleaned_data['password'])
+    user.is_active = False
+    user.save()
     update_user(user, validForm)
     return user
 
-def update_user(user, validForm):
-    user.is_active = False
+def update_user(user, validForm):    
     user.first_name = validForm.cleaned_data['first_name']
     user.last_name = validForm.cleaned_data['last_name']
     user.save()
