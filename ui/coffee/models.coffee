@@ -114,6 +114,10 @@ class root.Contact extends Backbone.Model
     
 class root.ContactInformation extends Backbone.Model
   initialize: (options) ->
+    # Generate a blank contact from the schema if nothing was passed in
+    if ( prop for prop, value of options ).length is 0
+      getEmptyInstance @, 'contactInformation'
+      
     # Push Address information to a sub-model
     address = @get 'Address'
     if address?
@@ -122,7 +126,10 @@ class root.ContactInformation extends Backbone.Model
       
 class root.Address extends Backbone.Model
   initialize: (options) ->
-    
+    # Generate a blank contact from the schema if nothing was passed in
+    if ( prop for prop, value of options ).length is 0
+      getEmptyInstance @, 'address'
+      
 class root.Contacts extends Backbone.Collection
   model: root.Contact
   
