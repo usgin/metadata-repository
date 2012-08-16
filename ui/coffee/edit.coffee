@@ -245,12 +245,22 @@ $(document).ready ->
           nameLi.addClass 'invalid'
           messages.push "A contact must specify either a Name or an Organization Name"
       
+      # Check that the Description has at least 50 characters
+      $('[attr="Description"]').each ->
+        desc = $(this).val()
+        descLi = $(this).parent('#resource-description')
+        descLi.removeClass 'invalid'
+        if desc.length < 50
+          descLi.addClass 'invalid'
+          messages.push "Descriptions must contain at least 50 characters"
+          
       # List validation messages
       msgContainer = $('#validation-message-container')
+      msgContainer.children().each ->
+        $(this).remove()
+          
       if messages.length is 0
-        msgContainer.addClass 'hidden'
-        msgContainer.children().each ->
-          $(this).remove()
+        msgContainer.addClass 'hidden'       
       else
         msgContainer.removeClass 'hidden'
         _.forEach messages, (msg) ->
