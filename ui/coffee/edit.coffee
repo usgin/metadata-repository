@@ -246,7 +246,7 @@ $(document).ready ->
           messages.push "A contact must specify either a Name or an Organization Name"
       
       # Check that the Description has at least 50 characters
-      $('[attr="Description"]').each ->
+      $('#basic-metadata #resource-description textarea').each ->
         desc = $(this).val()
         descLi = $(this).parent('#resource-description')
         descLi.removeClass 'invalid'
