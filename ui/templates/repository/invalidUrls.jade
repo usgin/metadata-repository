@@ -1,0 +1,19 @@
+!!! 5
+html
+	head
+		title Invalid URLs
+		link(rel="stylesheet", type="text/css", href="/static/css/invalid-urls.css")
+		script(type="application/javascript", src="/static/lib/jquery-1.6.4.min.js")
+		script(type="application/javascript", src="/static/js/invalidUrls.js")
+	body
+		#refresh.ready REFRESH 
+		ul
+			each doc in rows
+				key = doc['key']
+				li.container
+					a(href= key).key= key
+					ul
+						each link in doc.value
+							li
+								a(href= link).value= link
+	

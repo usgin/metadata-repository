@@ -1,0 +1,44 @@
+.container {
+	margin-bottom: 10px;
+}
+
+.key {
+	font-weight: bold;
+	margin: 3px;
+	color: red;
+}
+
+.key a:visited {
+	color: red;
+}
+.value {
+	size: 0.9em;
+	color: blue
+}
+
+.value a:visited {
+	color: blue;
+}
+
+#refresh {
+	padding: 5px 15px;
+	margin-right: 30px;
+	background-color: #DDD;
+	border: 1px solid black;
+	border-radius: 5px;
+	float: right;
+}
+
+#refresh.ready:hover {
+	cursor: pointer;
+	background-color: #CCC;
+}
+
+.thinking {
+	background-color: red !important;
+	color: white;
+}
+
+li {
+	list-style-type: none;
+}
