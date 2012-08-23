@@ -91,7 +91,7 @@ class ResourceCollection(models.Model):
         # Setup for determining permissions as efficiently as possible
         can_edit = False
         # Anonymous users are easy...
-        if user.is_anonymous:
+        if user.is_anonymous():
             viewable_resources = self.resource_set.filter(published=True)
         # ... but if they aren't anonymous, then there are some editable checks to go through
         else:
