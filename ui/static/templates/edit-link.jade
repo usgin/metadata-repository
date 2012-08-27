@@ -1,6 +1,6 @@
 fieldset
 	legend.small-legend.obj-legend
-		if schemaName == 'serviceLink'
+		if schemaName == 'serviceLink' && typeof ServiceType != 'undefined'
 			span= ServiceType
 		else if Name && Name != null
 			span= Name
@@ -13,13 +13,15 @@ fieldset
 				span.label Service Type
 				select(attr="ServiceType")
 					for type in [ 'OGC:WMS', 'OGC:WFS', 'OGC:WCS', 'OPENDaP', 'ESRI' ]
-						if ServiceType == type
+						if typeof ServiceType != 'undefined' && ServiceType == type
 							option(value=type, selected="selected")= type
 						else
 							option(value=type)= type
+			
 			li.key-value
 				span.label Layer ID
-				input(attr="LayerId", value=LayerId)
+				- var layerId = typeof LayerId != 'undefined' ? LayerId : '' 
+				input(attr="LayerId", value=layerId)
 		li.required.key-value
 			span.label URL
 			input(attr="URL", value=URL)

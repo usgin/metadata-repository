@@ -140,7 +140,10 @@ class root.Link extends Backbone.Model
   initialize: (options) ->
     # Set the schemaName attribute
     schemaName = options.schemaName or 'link'
-    schemaName = 'serviceLink' if options.ServiceType? 
+    schemaName = 'serviceLink' if options.ServiceType?
+    if schemaName is 'serviceLink'  
+      @set 'ServiceType', options.ServiceType or ''
+      @set 'LayerId', options.ServiceType or ''  
     @set 'schemaName', schemaName
     
     # Generate a blank link from the schema if nothing was passed in

@@ -119,7 +119,7 @@ $(document).ready ->
       @record.links = new root.Links()
       for link in @record.get 'Links'
         l = new root.Link link
-        l.schema = if link.ServiceType? then @schemas.serviceLink else @schemas.link
+        l.schema = if link.ServiceType? or link.schemaName is 'serviceLink' then @schemas.serviceLink else @schemas.link
         @record.links.add l
       
       #Render basic views.
