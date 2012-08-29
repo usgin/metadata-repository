@@ -2,7 +2,7 @@ from models import Resource, ResourceCollection, Contact
 from django.contrib import admin
 
 class ResourceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'metadata_id', 'edit_metadata_link', 'published')
+    list_display = ('title', 'couchDB_link', 'edit_metadata_link', 'published')
     filter_horizontal = ['editors', 'collections']
     list_filter = ('published', 'collections')
     search_fields = ['title', 'metadata_id']

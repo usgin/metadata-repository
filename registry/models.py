@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.sites.models import Site
 
 class Resource(models.Model):
     class Meta:
@@ -41,6 +43,11 @@ class Resource(models.Model):
         return '<a href="/repository/resource/' + self.metadata_id + '/edit/">Edit resource</a>'
     edit_metadata_link.allow_tags = True    
     
+    def couchDB_link(self):
+        domain = Site.objects.get(id=settings.SITE_ID).domain
+        return '<a href="http://' + domain.replace('repository', 'couchdb') + ':8001/_utils/document.html?records/' + self.metadata_id + '">CouchDB Record</a>'
+    couchDB_link.allow_tags = True
+
     def file_names(self):
         return []
         
