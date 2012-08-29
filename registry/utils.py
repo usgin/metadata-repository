@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.contrib.auth.decorators import permission_required
 from metadatadb.proxy import proxyRequest
 from models import Resource, ResourceCollection, Contact
 import json
@@ -67,7 +68,8 @@ def sync():
                 Contact.objects.get(name=name)
             except Contact.DoesNotExist:
                 Contact.objects.create(name=name, json=json.dumps(contact))
-            
+
+@permission_required('registry.edit_any_resource')            
 def synch_to_couchdb(req):
     sync()
     return HttpResponse('Success')
