@@ -72,7 +72,11 @@ class ResourceCollection(models.Model):
         if user.has_perm('registry.edit_any_resource_collection') or user in self.editors.all():
             return True
         return False
-    
+    def couchDB_link(self):
+        domain = Site.objects.get(id=settings.SITE_ID).domain
+        return '<a href="http://' + domain.replace('repository', 'couchdb') + ':8001/_utils/document.html?collections/' + self.collection_id + '">CouchDB Record</a>'
+    couchDB_link.allow_tags = True
+
     # Return child collections
     def children(self):
         return ResourceCollection.objects.filter(parents__in=[self])

@@ -9,7 +9,7 @@ class ResourceAdmin(admin.ModelAdmin):
     
 class ResourceCollectionAdmin(admin.ModelAdmin):
     filter_horizontal = [ 'editors', 'parents' ]
-    list_display = ('title', 'collection_id')
+    list_display = ('title', 'collection_id', 'couchDB_link')
     search_fields = ['title', 'collection_id']
     
 admin.site.register(Resource, ResourceAdmin)
