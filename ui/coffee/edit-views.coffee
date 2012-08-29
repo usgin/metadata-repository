@@ -163,6 +163,8 @@ class root.FilesView extends Backbone.View
       buttons:
         "Upload File": ->          
           $('#new-file-form').ajaxForm()
+          # This is supposed to disable the button... but does it?
+          $('button > span:contains("Upload File")').button 'disable'
           $('#new-file-form').ajaxSubmit {
             success: (data, status, xhr) ->
               # Update the UI, Available Files

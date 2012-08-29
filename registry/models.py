@@ -35,7 +35,11 @@ class Resource(models.Model):
     
     def metadata_link(self):
         return '<a href="/metadata/record/' + self.metadata_id + '.iso.xml">View metadata</a>'
-    metadata_link.allow_tags = True        
+    metadata_link.allow_tags = True
+
+    def edit_metadata_link(self):
+        return '<a href="/repository/resource/' + self.metadata_id + '/edit/">Edit resource</a>'
+    edit_metadata_link.allow_tags = True    
     
     def file_names(self):
         return []
