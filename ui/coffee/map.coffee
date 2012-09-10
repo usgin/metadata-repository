@@ -44,7 +44,10 @@ $(document).ready ->
     poly = mercBounds.toGeometry()
     vector.addFeatures [ new OpenLayers.Feature.Vector poly ]
     map.zoomToExtent mercBounds
-  
+  else
+    # Zoom to the USA
+    map.zoomToExtent new OpenLayers.Bounds -14558502.153281, 78271.516953087, -6887893.4918749, 9862211.1360937
+    
   # Add toolbars if this is an editable map page
   editToolbars map, vector if root.update?
 
