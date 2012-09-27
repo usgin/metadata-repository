@@ -62,7 +62,7 @@ class ResourceCollection(models.Model):
     title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
     editors = models.ManyToManyField(User)
-    parents = models.ManyToManyField('self', symmetrical=False, null=True)
+    parents = models.ManyToManyField('self', symmetrical=False, null=True, blank=True)
     
     def __unicode__(self):
         if self.title != '': return self.title
