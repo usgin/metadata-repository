@@ -3,4 +3,4 @@ from django.template import RequestContext
 
 def home(req):
     context = RequestContext(req)
-    return render_to_response('base.jade', context_instance=context)
+    return render_to_response('repository/home.jade', context_instance=context)

@@ -1,0 +1,43 @@
+extends ./base
+
+block styles
+  link(rel="stylesheet/less", type="text/css", href="/static/css/home.less")
+  
+block page-content
+  #sgd-info.info-block 
+    | This repository contains contributions from 50 state geological surveys to the 
+    span.highlight State Geothermal Data Project
+    | , organized by the 
+    span.highlight Association of American State Geologists 
+    | with funding from the 
+    span.highlight Department of Energy.
+ 
+  #ngds-info.info-block
+    | The information collected by the State Geothermal Data Project is contributed to the 
+    span.highlight National Geothermal Data System. 
+    p
+      | For more information, visit
+      a(href="http://geothermaldatasystem.org") http://geothermaldatasystem.org
+  
+  #usage-blocks
+    a(href="/repository/browse/"): span#browse-block.use-block Browse the Collections
+    a(href="/repository/search/"): span#search-block.use-block Search for Resources
+    a(href="/accounts/register/"): span#login-block.use-block Register for an Account
+        
+  a(href="http://search.stategeothermaldata.org")#sgd-search.info-block
+    img(src="/static/img/search-image.png")
+    #search-link-text
+      p The records in this repository represent a subset of the information
+      p 
+        | available as part of the
+        strong State Geothermal Data Project.
+      p 
+        | To search the entirety of the collection, visit 
+        span.highlight http://search.stategeothermaldata.org
+    
+block sidebar-content
+  #new-resources-block
+    h2#new-resources-title.block-title Latest Contributions
+    #new-resources-content.block-content
+      ul#site-info-menu.menu
+        li#site-info-about Coming Soon!          

@@ -1,0 +1,48 @@
+@import "base";
+
+#usage-blocks {
+  width: 100%;
+  span {
+    display: inline-block;
+    width: 200px;
+    height: 150px;
+    margin: 3px;
+    text-align: center;
+    .block-content();
+    border-top-left-radius: @block-radius;
+    border-top-right-radius: @block-radius;
+    color: @footer-color;
+    font-weight: bold;
+  }
+}
+
+.highlight {
+  color: @orange-color;
+  font-weight: bold;
+}
+
+.info-block {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 12px;
+  width: 680px;
+  a {
+    text-decoration: none;
+    .highlight();
+  }
+}
+
+#sgd-search {
+  text-decoration: none;
+  img {
+    border-radius: @block-radius;
+    border: 1px solid @block-border-color;
+  }
+  #search-link-text {
+    color: @footer-color;
+    font-size: 16px;
+    width: 680px;
+    position: relative;
+    top: -120px;
+  }
+}
