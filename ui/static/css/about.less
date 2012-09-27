@@ -1,0 +1,25 @@
+@import "base.less";
+
+.highlight {
+  color: @footer-color;
+  font-weight: bold;
+}
+
+#information-container {
+  margin-bottom: 10px;
+  font-size: 12px;
+  width: 680px;
+  a {
+    text-decoration: none;
+    .highlight();
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  p {
+    width: 400px;
+    margin-bottom: 10px;
+    line-height: 14px;
+  }
+}
+

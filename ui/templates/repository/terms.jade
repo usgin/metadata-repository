@@ -1,0 +1,13 @@
+extends ./base
+
+block styles
+  link(rel="stylesheet/less", type="text/css", href="/static/css/about.less")
+  
+block page-content
+  #information-container
+    a(href="http://creativecommons.org/licenses/by/3.0/deed.en_US")
+      img(alt="Creative Commons License", src="http://i.creativecommons.org/l/by/3.0/88x31.png", style="float:left; margin-right:5px;")
+    p
+      | Resources contained in this site are licensed under a 
+      a(href="http://creativecommons.org/licenses/by/3.0/deed.en_US") Creative Commons Attribution 3.0 Unsupported License.
+  

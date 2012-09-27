@@ -1,0 +1,28 @@
+extends ./base
+
+block styles
+  link(rel="stylesheet/less", type="text/css", href="/static/css/about.less")
+
+block page-content
+  #information-container
+    p
+      | This repository is used for maintenance of metadata which describe resources contributed to the
+      a(href="http://stategeothermaldata.org").highlight AASG State Geothermal Data System
+      | . The repository also provides an archive for files that are not hosted by the agency contributing the resource.
+      |  Data from all 50 state geological surveys is represented here, and is contributed in turn to the 
+      a(href="http://geothermaldatasystem.org").highlight National Geothermal Data System
+      | .
+    p
+      | The application itself was implemented using
+      a(href="http://djangoproject.com").highlight Django
+      | , 
+      a(href="http://nodejs.org").highlight Node.js
+      | , and 
+      a(href="http://couchdb.apache.org/").highlight CouchDB 
+      | by Ryan Clark at the 
+      a(href="http://azgs.az.gov") Arizona Geological Survey
+      | . The source code is accessible at 
+      a(href="https://github.com/usgin/metadata-repository").highlight https://github.com/usgin/metadata-repository
+    p
+      | Please report any issues you encounter at 
+      a(href="https://github.com/usgin/metadata-repository/issues").highlight https://github.com/usgin/metadata-repository/issues

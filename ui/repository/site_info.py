@@ -1,16 +1,19 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from subprocess import check_call, CalledProcessError
+from django.template import RequestContext
 import json, httplib
 
 def contact(req):
     return HttpResponse('Not Implemented Yet', status=501)
 
 def about(req):
-    return HttpResponse('Not Implemented Yet', status=501)
+    context = RequestContext(req)
+    return render_to_response('repository/about.jade', context_instance=context)
 
 def terms(req):
-    return HttpResponse('Not Implemented Yet', status=501)
+    context = RequestContext(req)
+    return render_to_response('repository/terms.jade', context_instance=context)
 
 def rant(req):
     return HttpResponse('Not Implemented Yet', status=501)
