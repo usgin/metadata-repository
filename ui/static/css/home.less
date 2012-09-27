@@ -29,20 +29,29 @@
   a {
     text-decoration: none;
     .highlight();
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
 #sgd-search {
   text-decoration: none;
+  position: relative;
   img {
     border-radius: @block-radius;
     border: 1px solid @block-border-color;
   }
   #search-link-text {
+    text-align: left;
     color: @footer-color;
     font-size: 16px;
-    width: 680px;
-    position: relative;
-    top: -120px;
+    position: absolute;
+    width: 300px;
+    top: -330px;
+    left: 380px;
+  }
+  p {
+    margin-bottom: 25px;
   }
 }
