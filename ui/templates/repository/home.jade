@@ -20,12 +20,18 @@ block page-content
       a(href="http://geothermaldatasystem.org") http://geothermaldatasystem.org
   
   #usage-blocks
-    a(href="/repository/browse/"): span#browse-block.use-block Browse the Collections
-    a(href="/repository/search/"): span#search-block.use-block Manage Resources
-    a(href="/accounts/register/"): span#login-block.use-block Register for an Account
+    a(href="/repository/browse/")
+      span#browse-block.use-block Browse the Collections
+      img(src="/static/img/book.png")
+    a(href="/repository/search/")
+      span#search-block.use-block Manage Resources
+      img(src="/static/img/document.png")
+    a(href="/accounts/register/")
+      span#login-block.use-block Register for an Account
+      img(src="/static/img/user.png")
         
   a(href="http://search.stategeothermaldata.org")#sgd-search.info-block
-    img(src="/static/img/search-image.png")
+    img(src="/static/img/search-image.png").block-border
     #search-link-text
       p: strong Search for Geothermal Data
       p 
@@ -34,6 +40,8 @@ block page-content
       p 
         | To search the entire collection, visit 
         span.highlight http://search.stategeothermaldata.org
+      .icon-container
+        img(src="/static/img/magnify.png")
     
 block sidebar-content
   #new-resources-block

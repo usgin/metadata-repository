@@ -2,7 +2,7 @@
 
 #usage-blocks {
   width: 100%;
-  span {
+  a {
     display: inline-block;
     width: 200px;
     height: 150px;
@@ -13,6 +13,12 @@
     border-top-right-radius: @block-radius;
     color: @footer-color;
     font-weight: bold;
+    text-decoration: none;
+    &:hover {
+      //border-color: darken(@block-border-color, 10%);
+      background-color: lighten(@block-bg-color, 10%);
+      //color: darken(@footer-color, 10%);
+    }
   }
 }
 
@@ -38,7 +44,7 @@
 #sgd-search {
   text-decoration: none;
   position: relative;
-  img {
+  .block-border {
     border-radius: @block-radius;
     border: 1px solid @block-border-color;
   }
@@ -53,5 +59,8 @@
   }
   p {
     margin-bottom: 25px;
+  }
+  .icon-container {
+    text-align: center;
   }
 }
