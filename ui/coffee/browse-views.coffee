@@ -201,17 +201,28 @@ class root.ChildCollectionView extends Backbone.View
               console.log err
             success: (data, status, xhr) ->
               data.ParentCollections = ( col for col in data.ParentCollections when col isnt view.parentView.collectionId )
-              putOpts =
-                type: 'PUT'
-                url: "/metadata/collection/#{view.collectionId}/"
-                contentType: 'application/json'
-                processData: false
-                data: JSON.stringify data
-                error: (err) ->
-                  console.log err
-                success: (data, status, xhr) ->
-                  console.log status
-              $.ajax putOpts
+              # Delete the collection entirely if there are no more parents
+              if data.ParentCollections.length is 0
+                delOpts =
+                  type: 'DELETE'
+                  url: "/metadata/collection/#{view.collectionId}/"
+                  error: (err) ->
+                    console.log err
+                  success: (data, status, xhr) ->
+                    console.log status
+                $.ajax delOpts
+              else
+                putOpts =
+                  type: 'PUT'
+                  url: "/metadata/collection/#{view.collectionId}/"
+                  contentType: 'application/json'
+                  processData: false
+                  data: JSON.stringify data
+                  error: (err) ->
+                    console.log err
+                  success: (data, status, xhr) ->
+                    console.log status
+                $.ajax putOpts
           $.ajax getOpts
           
           # Adjust the UI
