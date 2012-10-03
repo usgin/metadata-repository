@@ -6,7 +6,7 @@ import json
 
 def browse(req):
     # Find all the collections that do not have parents
-    top = ResourceCollection.objects.filter(parents="Top")
+    top = ResourceCollection.objects.filter(parents__isNull=True)
     
     # Find the closure (all children) for each top-level collection
     result = [ col.jsonClosure(req.user) for col in top ]
