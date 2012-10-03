@@ -210,8 +210,9 @@ $(document).ready ->
       collections = { Collections: ((JSON.parse JSON.stringify collection).id for collection in @collectionsView.model.models) }
       return _.extend recordJson, basics, geo, authors, distributors, links, collections
     
-    # This is kinda lame, since validation is being provided by the metadata-server already
-    #   but this makes it easier to track which fields need to be adjusted...
+    # This is very lame, since validation is being provided by the metadata-server already
+    #   but this makes it easier to track which fields need to be adjusted since the 
+    #   metadata-server does not return information about WHY validation failed.
     validateRecord: ->
       messages = []
       # Check that required content is filled in
@@ -253,6 +254,25 @@ $(document).ready ->
         if desc.length < 50
           descLi.addClass 'invalid'
           messages.push "Descriptions must contain at least 50 characters"
+          
+      # Check that GeographicExtent numbers fall within acceptable bounds
+      $('#geographic-extent-list input').each ->
+        extentLi = $(this).parent 'li'
+        extentLi.removeClass 'invalid'
+        extentVal = $(this).val()
+        switch $(this).attr 'attr'
+          when 'NorthBound'
+            extentLi.addClass 'invalid' if extentVal > 90 or extenVal < -90
+            messages.push 'NorthBound must be between -90 and 90'
+          when 'SouthBound'
+            extentLi.addClass 'invalid' if extentVal > 90 or extenVal < -90
+            messages.push 'SouthBound must be between -90 and 90'
+          when 'EastBound'
+            extentLi.addClass 'invalid' if extentVal > 180 or extenVal < -180
+            messages.push 'EastBound must be between -90 and 90'
+          when 'WestBound'
+            extentLi.addClass 'invalid' if extentVal > 180 or extenVal < -180
+            messages.push 'WestBound must be between -90 and 90'
           
       # List validation messages
       msgContainer = $('#validation-message-container')
