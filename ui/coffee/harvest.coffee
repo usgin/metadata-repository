@@ -2,7 +2,7 @@ root = exports ? this
 
 $(document).ready ->
   
-  class HarvestApplication extends Backbone.Viewl
+  class HarvestApplication extends Backbone.View
     jade: new root.Jade '/static/templates/harvest-application.jade'
     
     responseJade: new root.Jade '/static/templates/harvest-response.jade'
