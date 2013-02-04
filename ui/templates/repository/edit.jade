@@ -23,10 +23,10 @@ block scripts
 			| var inputRecord = #{jsonRecord};
 			| var inputCollections = #{collections};		
 			| var geoExtent = new OpenLayers.Bounds(
-			| 	inputRecord.GeographicExtent.WestBound,
-			| 	inputRecord.GeographicExtent.SouthBound,
-			|	inputRecord.GeographicExtent.WestBound > inputRecord.GeographicExtent.EastBound ? 360 + inputRecord.GeographicExtent.EastBound : inputRecord.GeographicExtent.EastBound,
-			| 	inputRecord.GeographicExtent.NorthBound);
+			| 	Number(inputRecord.GeographicExtent.WestBound),
+			| 	Number(inputRecord.GeographicExtent.SouthBound),
+			|	Number(inputRecord.GeographicExtent.WestBound) > Number(inputRecord.GeographicExtent.EastBound) ? 360 + Number(inputRecord.GeographicExtent.EastBound) : Number(inputRecord.GeographicExtent.EastBound),
+			| 	Number(inputRecord.GeographicExtent.NorthBound));
 		else
 			| var inputRecord = null;
 			| var inputCollections = [];
