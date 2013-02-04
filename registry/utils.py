@@ -83,6 +83,8 @@ def add_to_collections(input_collection_id, output_collections, publish=True):
     new_collections = [ ResourceCollection.objects.get(collection_id=col_id) for col_id in output_collections ]
     for resource in resources:
         for collection in new_collections:
-            resource.collections.add(collection)    
+            resource.collections.add(collection)
+        if publish:
+            resource.published = True
     
      
