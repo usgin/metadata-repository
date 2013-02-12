@@ -73,3 +73,18 @@ def sync():
 def synch_to_couchdb(req):
     sync()
     return HttpResponse('Success')
+
+def add_to_collections(input_collection_id, output_collections, publish=True):
+    """
+    input_collection_id is an existing collection. Each resource in that collection will
+    be moved into all the output_collections, and optionally published
+    """
+    resources = ResourceCollection.objects.get(collection_id=input_collection_id).resource_set.all()
+    new_collections = [ ResourceCollection.objects.get(collection_id=col_id) for col_id in output_collections ]
+    for resource in resources:
+        for collection in new_collections:
+            resource.collections.add(collection)
+        if publish:
+            resource.published = True
+    
+     
