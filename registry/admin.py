@@ -1,11 +1,16 @@
 from models import Resource, ResourceCollection, Contact
 from django.contrib import admin
 
+def make_published(modeladmin, request, queryset):
+    queryset.update(published=True)
+make_published.short_description = "Mark selected resources as published"
+
 class ResourceAdmin(admin.ModelAdmin):
     list_display = ('title', 'couchDB_link', 'edit_metadata_link', 'published')
     filter_horizontal = ['editors', 'collections']
     list_filter = ('published', 'collections')
     search_fields = ['title', 'metadata_id']
+    actions = [make_published]
     
 class ResourceCollectionAdmin(admin.ModelAdmin):
     filter_horizontal = [ 'editors', 'parents' ]
