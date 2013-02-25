@@ -12,7 +12,7 @@ block scripts
 	script(type="text/javascript", src="/static/js/resource.js")
 	script(type="text/javascript", src="/static/js/map.js")
 	{% autoescape off %}
-	script(type="text/javascript")
+	script(type="application/javascript")
 		| var geoExtent = new OpenLayers.Bounds(
 		| 	#{record.GeographicExtent.WestBound},
 		| 	#{record.GeographicExtent.SouthBound},
