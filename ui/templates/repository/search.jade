@@ -14,7 +14,7 @@ block scripts
 	script(type="text/javascript", src="/static/lib/jade.js")
 	script(type="text/javascript", src="/static/js/utils.js")
 	{% autoescape off %}
-	script(type="text/javascript")
+	script(type="application/javascript")
 		| term = #{term};
 	{% endautoescape %}
 	script(type="text/javascript", src="/static/js/models.js")

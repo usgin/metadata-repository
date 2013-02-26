@@ -16,7 +16,7 @@ block scripts
 	script(type="text/javascript", src="/static/js/map.js")	
 	script(type="text/javascript", src="/static/js/utils.js")
 	{% autoescape off %}
-	script(type="text/javascript")
+	script(type="application/javascript")
 		| var update = #{jsonUpdate}; 
 		| var allCollections = #{allCollections};
 		if update
