@@ -10,9 +10,10 @@ html(lang="en")
     block scripts
     //include google-analytics
   body
-    #beta-bar(style="background-color: gray; color: white; font-size: 14px; text-align: left; padding: 4px;")
-      strong Version 1.0     
-        a(href="https://github.com/usgin/metadata-repository/issues", style="font-size: 12px; color: white;") Report issues here  
+    #beta-bar(style="background-color: gray; color: white; font-size: 14px; text-align: center; padding: 4px;")
+      strong Version 1.0
+      p(style="font-size: 12px;")
+        a(href="https://github.com/usgin/metadata-repository/issues", style="color: white;") Issue Tracker  
     #header.clear-block
       ul#sub-navigation.horiz-list
         li#contact-link
@@ -26,7 +27,7 @@ html(lang="en")
           li#login-link
             a.orange-link(href="/accounts/login/?next=/repository/") Login
           li#register-link
-            a.orange-link(href="mailto:steve.richard@azgs.az.gov") Request account
+            a.orange-link(href="/accounts/register/") Register
       #title-banner.clear-block
         #site-logo
           a(href="/repository/")
