@@ -569,7 +569,7 @@ class root.GeographicExtentView extends Backbone.View
   changeAttribute: (evt) ->
     ele = $ evt.target
     attr = ele.attr 'attr'  
-    @model.set attr, parseInt ele.val()
+    @model.set attr, Number ele.val()
     
 class root.LinkView extends Backbone.View
   parentId: '#links-list'
