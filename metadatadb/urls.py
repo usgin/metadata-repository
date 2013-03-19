@@ -12,5 +12,7 @@ urlpatterns = patterns('metadatadb.proxy',
     url(r'^record/(?P<resourceId>[^/]*)/file/$', 'allFiles'), # GET, POST
     url(r'^record/(?P<resourceId>[^/]*)/file/(?P<fileName>.*)$', 'oneFile'), # GET, DELETE  
     url(r'^schema/$', 'allSchemas'), # GET
-    url(r'^schema/(?P<schemaId>.*)/$', 'oneSchema') # GET               
+    url(r'^schema/(?P<schemaId>.*)/$', 'oneSchema'), # GET  
+      
+    url(r'^sync/delUnpublish/$', 'delUnpublish')              
 )
