@@ -180,4 +180,4 @@ from viewCollectionRecords import viewCollectionRecords
 from allFiles import allFiles
 from oneFile import oneFile
 from schemas import allSchemas, oneSchema
-from sync import delUnpublish
+from unauthFunc import delUnpublish, delCouchExtraRec

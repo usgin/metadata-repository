@@ -14,5 +14,6 @@ urlpatterns = patterns('metadatadb.proxy',
     url(r'^schema/$', 'allSchemas'), # GET
     url(r'^schema/(?P<schemaId>.*)/$', 'oneSchema'), # GET  
       
-    url(r'^sync/delUnpublish/$', 'delUnpublish')              
+    url(r'^unauth/deleteUnpublishRecords/$', 'delUnpublish'), 
+    url(r'^unauth/deleteCouchExtraRecords/$', 'delCouchExtraRec')             
 )
