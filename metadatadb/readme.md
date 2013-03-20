@@ -1,6 +1,6 @@
 # Un-authorized urls 
 
-All the functions created by Genhan are saved in `anauthFunc.py`
+All the functions created by Genhan are saved in `unauthFunc.py`
 
 > DELETE request to *metadata/unauth/deleteUnpublishRecords*
 
