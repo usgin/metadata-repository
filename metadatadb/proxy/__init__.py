@@ -172,7 +172,7 @@ def waf (user, response):
 from search import search
 from allResources import allResources
 from viewRecords import viewRecords
-from harvestRecord import harvestRecord
+from harvestRecord import harvestRecord, uploadRecord
 from oneResource import oneResource
 from viewRecord import viewRecord
 from getCollectionRecords import getCollectionRecords

@@ -1,0 +1,31 @@
+extends ./base
+
+block page-title
+	title Harvest
+	
+block styles
+	link(rel="stylesheet/less", type="text/css", href="/static/css/harvest.less")
+	link(rel="stylesheet", type="text/css", href="/static/css/jqueryui/jquery-ui-1.8.16.custom.css")
+	
+block scripts
+	script(type="text/javascript", src="/static/lib/jquery-ui-1.8.16.custom.min.js")
+	script(type="text/javascript", src="/static/lib/underscore-1.3.3.min.js")
+	script(type="text/javascript", src="/static/lib/backbone-0.9.2.min.js")
+	script(type="text/javascript", src="/static/lib/jade.js")
+	script(type="text/javascript", src="/static/js/utils.js")
+	script(type="text/javascript", src="/static/js/models.js")
+	{% autoescape off %}
+	{% endautoescape %}
+	script(type="text/javascript", src="/static/js/harvest-views.js")
+	script(type="text/javascript", src="/static/js/harvest.js")
+	
+block page-content
+	h2(style="padding-bottom: 10px;") Your harvest was successful (#{newResources.length} new resources)
+		div#response-container
+			div.block-title Please edit your harvested content:
+			div.block-content
+				p Please note that your records will not be available to the public until they are published.
+				ul#edit-links.menu
+					each id in newResources
+						li 
+							a(href="/repository/resource/#{id}") Uploaded record #{id}

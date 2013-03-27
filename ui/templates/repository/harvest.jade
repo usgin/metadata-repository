@@ -34,9 +34,28 @@ block page-content
 								label(for=format.key)   #{format.label}
 				#input-collection-container.input-container
 					#input-collection-title.input-title Add harvested metadata to a collection?
-					input#collection-selector
-					input#selected-collection(style="display:none;", name="collection")
+					input#harvest-collection-selector.collection-selector
+					input#harvest-selected-collection(style="display:none;", name="collection")
 				#input-url-container.input-container
 					#input-url-title.input-title Enter the metadata URL
 					input#input-url(name="url")
-				#harvest-button-container					
+				#harvest-button-container
+	#harvest-form-block
+		#harvest-form-title.block-title Upload local metadata
+		#harvest-form-content.block-content
+			form#new-harvest(name="harvestForm", method="post", enctype="multipart/form-data", action="/metadata/upload/")
+				#input-type-title.input-title Select an input format
+				ul#input-type-list
+					each format in formats
+						li
+							input(id=format.key, type="radio", name="uploadFormat", value=format.key) 
+							label(for=format.key)   #{format.label}
+				#input-collection-container.input-container
+					#input-collection-title.input-title Add harvested metadata to a collection?
+					input#upload-collection-selector.collection-selector
+					input#upload-selected-collection(style="display:none;", name="collection")
+				#input-url-container.input-container
+					#input-url-title.input-title Choose file to upload
+					input#upload-url(name="file", type="file")
+				#harvest-button-container
+					input#submit-upload(name="submit", type="submit", value="Upload")				
