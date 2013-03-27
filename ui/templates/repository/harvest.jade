@@ -48,10 +48,10 @@ block page-content
 				ul#input-type-list
 					each format in formats
 						li
-							input(id=format.key, type="radio", name="uploadFormat", value=format.key) 
-							label(for=format.key)   #{format.label}
+							input(id='upload'+format.key, type="radio", name="uploadFormat", value=format.key) 
+							label(for='upload'+format.key)   #{format.label}
 				#input-collection-container.input-container
-					#input-collection-title.input-title Add harvested metadata to a collection?
+					#input-collection-title.input-title Add uploaded metadata to a collection?
 					input#upload-collection-selector.collection-selector
 					input#upload-selected-collection(style="display:none;", name="collection")
 				#input-url-container.input-container

@@ -1,5 +1,4 @@
 from django.http import HttpResponseNotAllowed, HttpResponse
-from django.template import RequestContext
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from metadatadb.proxy import proxyRequest
@@ -38,7 +37,11 @@ def uploadRecord(req):
     
     collections = req.POST['collection'].split(',')
     uploadFormat = req.POST['uploadFormat']
-
+    
+    """
+    decode_data_dict function is to identify 
+        if the given dictionary can be decoded with the listed formats  
+    """
     def decode_data_dict(data_dict):
         encodings = ["ascii", "utf8", "cp1252"]
         jDict = None
@@ -52,7 +55,12 @@ def uploadRecord(req):
         if jDict:
             return jDict
         else:
-            return HttpResponse('Cannot decode csv data!')
+            return HttpResponse('Cannot decode the data to ' + ', '.join(encodings) + '!')
+    
+    """
+    parseCSV function is to read csv file,
+        and return a list of records
+    """
     
     def parseCSV(rows):
         requiredFields = [
@@ -84,6 +92,11 @@ def uploadRecord(req):
         return data
     
     data = ""
+    
+    """
+    If the format of the uploaded file is CSV, read the file using parseCSV function.
+    Otherwise, read the file content as a string.
+    """
     if uploadFormat == 'csv':
         data = parseCSV(csv.reader(req.FILES['file']))
         if type(data) != list:
@@ -91,6 +104,10 @@ def uploadRecord(req):
     else:
         data = req.FILES['file'].read()       
         
+    """
+    Construct the data dictionary for the proxy request,
+        and determine if the dictionary can be converted to a json object
+    """
     bodyDict = {
         "destinationCollections": collections,
         "format": uploadFormat,
@@ -109,7 +126,9 @@ def uploadRecord(req):
     
     if response.status_code == 200:
         ids = []
-        # Track the newly created resources
+        """
+        Keep Django database update with CouchDB
+        """
         content = json.loads(response.content)
         for res in content:
             loc = res.strip('/').split('/')
@@ -124,6 +143,8 @@ def uploadRecord(req):
             
         context = {'newResources': ids}    
         return render(req, 'repository/upload-results.jade', context)
+    else:
+        return response
 
   
         
