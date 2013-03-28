@@ -91,60 +91,61 @@ def uploadRecord(req):
                     data.append(record)
         return data
     
-    data = ""
+    ids = []
+    files = req.FILES.getlist('file')
     
-    """
-    If the format of the uploaded file is CSV, read the file using parseCSV function.
-    Otherwise, read the file content as a string.
-    """
-    if uploadFormat == 'csv':
-        data = parseCSV(csv.reader(req.FILES['file']))
-        if type(data) != list:
-            return data
-    else:
-        data = req.FILES['file'].read()       
+    for f in files:
+        data = ""
+        """
+        If the format of the uploaded file is CSV, read the file using parseCSV function.
+        Otherwise, read the file content as a string.
+        """
+        if uploadFormat == 'csv':
+            data = parseCSV(csv.reader(f))
+            if type(data) != list:
+                return data
+        else:
+            data = f.read()       
         
-    """
-    Construct the data dictionary for the proxy request,
-        and determine if the dictionary can be converted to a json object
-    """
-    bodyDict = {
-        "destinationCollections": collections,
-        "format": uploadFormat,
-        "data": data
-    }
-    
-    jBodyDict = decode_data_dict(bodyDict)
-    
-    kwargs = {
-        'path': '/metadata/upload/',
-        'method': req.method,
-        'body': jBodyDict,
-        'headers': { 'Content-Type': 'application/json' }          
-    }
-    response = proxyRequest(**kwargs)
-    
-    if response.status_code == 200:
-        ids = []
         """
-        Keep Django database update with CouchDB
+        Construct the data dictionary for the proxy request,
+            and determine if the dictionary can be converted to a json object
         """
-        content = json.loads(response.content)
-        for res in content:
-            loc = res.strip('/').split('/')
-            meta_id = loc.pop()
-            kwargs = {
-                'user': req.user,
-                'resourceId': meta_id,
-                'content': json.loads(proxyRequest(res, 'GET').content)          
-            }
-            track_resource(**kwargs)
-            ids.append(meta_id)
-            
-        context = {'newResources': ids}    
-        return render(req, 'repository/upload-results.jade', context)
-    else:
-        return response
-
+        bodyDict = {
+            "destinationCollections": collections,
+            "format": uploadFormat,
+            "data": data
+        }
+        
+        jBodyDict = decode_data_dict(bodyDict)
+    
+        kwargs = {
+            'path': '/metadata/upload/',
+            'method': req.method,
+            'body': jBodyDict,
+            'headers': { 'Content-Type': 'application/json' }          
+        }
+        response = proxyRequest(**kwargs)
+    
+        if response.status_code == 200:
+            """
+            Keep Django database update with CouchDB
+            """
+            content = json.loads(response.content)
+            for res in content:
+                loc = res.strip('/').split('/')
+                meta_id = loc.pop()
+                kwargs = {
+                    'user': req.user,
+                    'resourceId': meta_id,
+                    'content': json.loads(proxyRequest(res, 'GET').content)          
+                }
+                track_resource(**kwargs)
+                ids.append(meta_id)
+        else:
+            return response
+    
+    context = {'newResources': ids}    
+    return render(req, 'repository/upload-results.jade', context)
   
         
