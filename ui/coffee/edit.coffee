@@ -262,16 +262,16 @@ $(document).ready ->
         extentVal = $(this).val()
         switch $(this).attr 'attr'
           when 'NorthBound'
-            extentLi.addClass 'invalid' if extentVal > 90 or extenVal < -90
+            extentLi.addClass 'invalid' if extentVal > 90 or extentVal < -90
             messages.push 'NorthBound must be between -90 and 90'
           when 'SouthBound'
-            extentLi.addClass 'invalid' if extentVal > 90 or extenVal < -90
+            extentLi.addClass 'invalid' if extentVal > 90 or extentVal < -90
             messages.push 'SouthBound must be between -90 and 90'
           when 'EastBound'
-            extentLi.addClass 'invalid' if extentVal > 180 or extenVal < -180
+            extentLi.addClass 'invalid' if extentVal > 180 or extentVal < -180
             messages.push 'EastBound must be between -90 and 90'
           when 'WestBound'
-            extentLi.addClass 'invalid' if extentVal > 180 or extenVal < -180
+            extentLi.addClass 'invalid' if extentVal > 180 or extentVal < -180
             messages.push 'WestBound must be between -90 and 90'
           
       # List validation messages
