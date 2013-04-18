@@ -5,6 +5,7 @@ urlpatterns = patterns('metadatadb.proxy',
     url(r'^(?P<resourceType>record|collection)/$', 'allResources'), # GET, POST
     url(r'^record\.(?P<viewFormat>iso.xml|atom.xml|geojson)$', 'viewRecords'), # GET
     url(r'^harvest/$', 'harvestRecord'), # POST
+    url(r'^upload/$', 'uploadRecord'), # POST
     url(r'^(?P<resourceType>record|collection)/(?P<resourceId>[^/]*)/$', 'oneResource'), # GET, PUT, DELETE
     url(r'^record/(?P<resourceId>[^/]*)\.(?P<viewFormat>iso.xml|atom.xml|geojson)$', 'viewRecord'), # GET
     url(r'^collection/(?P<resourceId>[^/]*)/records/$', 'getCollectionRecords'), # GET

@@ -6,6 +6,7 @@ import json
 ResourceCollection = get_model('registry', 'ResourceCollection')
 
 def harvest(req):
+ 
     class Format():
         key = ''
         label = ''        
