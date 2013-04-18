@@ -35,7 +35,7 @@ def uploadRecord(req):
     if req.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
     
-    collections = req.POST['collection'].split(',')
+    collections = req.POST['collection'].replace(' ', '').split(',')
     uploadFormat = req.POST['uploadFormat']
     
     """
