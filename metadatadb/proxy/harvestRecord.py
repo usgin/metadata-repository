@@ -144,8 +144,8 @@ def uploadRecord(req):
                 ids.append(meta_id)
         else:
             return response
-    
-    context = {'newResources': ids}    
+    numIDs = len(ids)
+    context = {'newResources': ids, 'num': numIDs}    
     return render(req, 'repository/upload-results.jade', context)
   
         

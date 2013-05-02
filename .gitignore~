@@ -1,0 +1,11 @@
+.metadata/
+.DS_Store
+.project
+*.pyc
+.pydevproject
+manage.py
+dgn/__init__.py
+dgn/settings.py
+dgn/wsgi.py
+ui/static/js/
+*.esproj
