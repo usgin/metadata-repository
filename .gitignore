@@ -8,3 +8,6 @@ dgn/settings.py
 dgn/wsgi.py
 ui/static/js/
 *.esproj
+.metadata/
+.idea/
+*~
