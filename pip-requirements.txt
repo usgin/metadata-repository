@@ -1,0 +1,5 @@
+beautifulsoup4
+pyjade
+lxml
+poster
+django-recaptcha
