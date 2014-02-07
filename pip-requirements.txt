@@ -4,3 +4,4 @@ lxml==2.3.4
 poster==0.8.1
 django-recaptcha==0.0.4
 django==1.4
+psycopg2==2.4.5
