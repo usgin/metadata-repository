@@ -7,18 +7,22 @@
 ## Setup the Metadata Repository
 
     (metadatarepoenv) $ git clone git@github.com:usgin/metadata-repository.git
-    (metadatarepoenv) $ cd /metadata-repository
+    (metadatarepoenv) $ cd metadata-repository/
     (metadatarepoenv) $ pip install -r pip-requirements.txt
 
 ## Setup Django
 
     (metadatarepoenv) $ cd ..
     (metadatarepoenv) $ django-admin.py startproject metadatarepo
+    (metadatarepoenv) $ cd metadatarepo/
+    (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/metadatadb ~/workspace/metadatarepoenv/metadatarepo
+    (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/ui ~/workspace/metadatarepoenv/metadatarepo
+    (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/registry ~/workspace/metadatarepoenv/metadatarepo
 
 ### Setup Postgres Databases
 
     (metadatarepoenv) $ sudo -su postgres
-    $ createuser -S -D -R -P metadatarepouser
+    $ createuser -s -d -r -P metadatarepouser
     $ createdb -T template_postgis -O metadatarepouser metadatarepo -E utf-8
     $ psql -d metadatarepo -c '\dt'
     $ psql -d metadatarepo -c 'ALTER TABLE geometry_columns OWNER TO metadatarepouser;'
@@ -27,22 +31,21 @@
 
 ### Setup settings.py
 
-Open /metadatarepo/metadatarepo/settings.py is an editor and change the following settings:
+Open /metadatarepo/metadatarepo/settings.py in an editor and change the following settings (for Django v1.4):
 
 
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis', # Add 'postgresql_psyc$
-            'NAME': 'metadatarepo',                      # Or path to database file if using$
-            'USER': 'metadatarepouser',                      # Not used with sqlite3.
-            'PASSWORD': 'your password',                  # Not used with sqlite3.
+            'NAME': 'metadatarepo',          # Or path to database file if using$
+            'USER': 'metadatarepouser',      # Not used with sqlite3.
+            'PASSWORD': 'your password',     # Not used with sqlite3.
             'HOST': '',                      # Set to empty string for localhost. Not $
             'PORT': '',                      # Set to empty string for default. Not us$
         }
     }
 
     TIME_ZONE = 'America/Phoenix'
-
 
     INSTALLED_APPS = (
         'django.contrib.auth',
@@ -57,9 +60,7 @@ Open /metadatarepo/metadatarepo/settings.py is an editor and change the followin
         'metadatadb',
         'registry',
         'ui',
-        'captcha',
-        'uriredirect',
-        'modelmanager'
+        'captcha'
     )
 
     RECAPTCHA_PUBLIC_KEY = '6Lf-1tQSAAAAAPNBFjd5S6GJta2X7YlFiA-FEnCp'
@@ -75,6 +76,7 @@ Open /metadatarepo/metadatarepo/settings.py is an editor and change the followin
 
 ### Sync Django with Postgres
 
+    (metadatarepoenv) $ cd metadatarepo/
     (metadatarepoenv) $ python manage.py syncdb
 
 GeoDjango v1.4 might have deployed with a buggy version of libgeos.  If it did, you won't be able to get past the above step without doing the following:
