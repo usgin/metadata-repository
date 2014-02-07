@@ -1,3 +1,10 @@
+## Prerequisites
+
+- Node.js
+- Coffeescript
+
+    $ sudo npm install -g coffee-script
+
 ## Setup a Virtual Environment for the Metadata Repository
 
     $ virtualenv --no-site-packages metadatarepoenv
@@ -12,12 +19,25 @@
 
 ## Setup Django
 
+- Create a new Django project called metadatarepo
+
     (metadatarepoenv) $ cd ..
     (metadatarepoenv) $ django-admin.py startproject metadatarepo
+
+- Setup symlinks
+
     (metadatarepoenv) $ cd metadatarepo/
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/metadatadb ~/workspace/metadatarepoenv/metadatarepo
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/ui ~/workspace/metadatarepoenv/metadatarepo
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/registry ~/workspace/metadatarepoenv/metadatarepo
+
+- Compile CoffeeScript into JavaScript
+
+    (metadatarepoenv) $ cd ui/
+    (metadatarepoenv) $ cake build
+
+- Replace the content of metadatarepo/metadatarepo/urls.py with metadata-repository/dgn/urls.py
+
 
 ### Setup Postgres Databases
 
@@ -29,7 +49,7 @@
     $ psql -d metadatarepo -c 'ALTER TABLE spatial_ref_sys OWNER TO metadatarepouser;'
     $ exit
 
-### Setup settings.py
+### Edit settings.py
 
 Open /metadatarepo/metadatarepo/settings.py in an editor and change the following settings (for Django v1.4):
 
@@ -40,8 +60,8 @@ Open /metadatarepo/metadatarepo/settings.py in an editor and change the followin
             'NAME': 'metadatarepo',          # Or path to database file if using$
             'USER': 'metadatarepouser',      # Not used with sqlite3.
             'PASSWORD': 'your password',     # Not used with sqlite3.
-            'HOST': '',                      # Set to empty string for localhost. Not $
-            'PORT': '',                      # Set to empty string for default. Not us$
+            'HOST': 'localhost',             # Set to empty string for localhost. Not $
+            'PORT': '5432',                  # Set to empty string for default. Not us$
         }
     }
 
