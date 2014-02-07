@@ -1,6 +1,19 @@
-## Install Pip Requirements
+## Setup a Virtual Environment for the Metadata Repository
 
-`pip install -r pip-requirements.txt`
+    $ virtualenv --no-site-packages metadatarepo
+    $ cd ~/metadatarepo
+    $ source bin/activate
+
+## Setup the Metadata Repository
+
+    (ckanenv) $ git clone git@github.com:usgin/metadata-repository.git
+    (ckanenv) $ cd /metadata-repository
+    (ckanenv) $ pip install -r pip-requirements.txt
+
+## Setup Django
+
+    (ckanenv) $ cd ..
+    (ckanenv) $ django-admin.py startproject metadatarepo
 
 ## Required settings defined in settings.py
 	RECAPTCHA_PUBLIC_KEY
