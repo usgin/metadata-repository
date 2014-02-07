@@ -1,8 +1,7 @@
 ## Prerequisites
 
-- Node.js
-- Coffeescript
-
+Node.js
+Coffeescript
 
     $ sudo npm install -g coffee-script
 
@@ -21,30 +20,25 @@
 
 ## Setup Django
 
-- Create a new Django project called metadatarepo
-
+Create a new Django project called metadatarepo
 
     (metadatarepoenv) $ cd ..
     (metadatarepoenv) $ django-admin.py startproject metadatarepo
 
 
-- Setup symlinks
-
+Setup symlinks
 
     (metadatarepoenv) $ cd metadatarepo/
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/metadatadb ~/workspace/metadatarepoenv/metadatarepo
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/ui ~/workspace/metadatarepoenv/metadatarepo
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/registry ~/workspace/metadatarepoenv/metadatarepo
 
-
-- Compile CoffeeScript into JavaScript
-
+Compile CoffeeScript into JavaScript
 
     (metadatarepoenv) $ cd ui/
     (metadatarepoenv) $ cake build
 
-
-- Replace the content of metadatarepo/metadatarepo/urls.py with metadata-repository/dgn/urls.py
+Replace the content of metadatarepo/metadatarepo/urls.py with metadata-repository/dgn/urls.py
 
 
 ### Setup Postgres Databases
