@@ -3,7 +3,9 @@
 - Node.js
 - Coffeescript
 
+
     $ sudo npm install -g coffee-script
+
 
 ## Setup a Virtual Environment for the Metadata Repository
 
@@ -21,20 +23,26 @@
 
 - Create a new Django project called metadatarepo
 
+
     (metadatarepoenv) $ cd ..
     (metadatarepoenv) $ django-admin.py startproject metadatarepo
 
+
 - Setup symlinks
+
 
     (metadatarepoenv) $ cd metadatarepo/
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/metadatadb ~/workspace/metadatarepoenv/metadatarepo
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/ui ~/workspace/metadatarepoenv/metadatarepo
     (metadatarepoenv) $ ln -s ~/workspace/metadatarepoenv/metadata-repository/registry ~/workspace/metadatarepoenv/metadatarepo
 
+
 - Compile CoffeeScript into JavaScript
+
 
     (metadatarepoenv) $ cd ui/
     (metadatarepoenv) $ cake build
+
 
 - Replace the content of metadatarepo/metadatarepo/urls.py with metadata-repository/dgn/urls.py
 
