@@ -1,5 +1,6 @@
-beautifulsoup4
-pyjade
-lxml
-poster
-django-recaptcha
+beautifulsoup4==4.1.1
+pyjade==1.5
+lxml==2.3.4
+poster==0.8.1
+django-recaptcha==0.0.4
+django==1.4
