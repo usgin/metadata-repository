@@ -25,6 +25,18 @@
     $ psql -d metadatarepo -c 'ALTER TABLE spatial_ref_sys OWNER TO metadatarepouser;'
     $ exit
 
+### Sync Django with Postgres
+
+    (metadatarepoenv) $ python manage.py syncdb
+
+GeoDjango v1.4 might have deployed with a buggy version of libgeos.  If it did, you won't be able to get past the above step without doing the following:
+
+    $ sudo nano ../python2.7/site-packages/django/contrib/gis/geos/libgeos.py
+    Change this:
+    $ version_regex = re.compile(r'^(?P<version>(?P<major>\d+)\.(?P<minor>\d+)\.(?P<subminor>\d+))((rc(?P<release_candidate>\d+))|dev)?-CAPI-(?P<capi_version>\d+\.\d+\.\d+)$')
+    To this:
+    $ version_regex = re.compile(r'^(?P<version>(?P<major>\d+)\.(?P<minor>\d+)\.(?P<subminor>\d+))((rc(?P<release_candidate>\d+))|dev)?-CAPI-(?P<capi_version>\d+\.\d+\.\d+).*$')
+
 ## Required settings defined in settings.py
 	RECAPTCHA_PUBLIC_KEY
 	RECAPTCHA_PRIVATE_KEY
