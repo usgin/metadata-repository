@@ -32,3 +32,11 @@ But the `dgn` application is not necessary.  Each application contains a `urls.p
             ui (symbolic link from ../metadata-repository)
             my-django-project
 
+Here are some example core Django files to help you finish up the installation process:
+- [my-django-project/settings.py](https://github.com/usgin/metadata-repository/blob/master/django-example/settings-example.py)
+- [my-django-project/urls.py](https://github.com/usgin/metadata-repository/blob/master/django-example/urls-example.py)
+
+
+Finally, to build *.js files you'll need to:
+> $ cd metadata-repository/ui
+> $ cake build
