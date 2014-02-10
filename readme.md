@@ -7,7 +7,9 @@
 - Coffeescript
 - Python virtualenv
 - PostgreSQL w/ PostGIS
+- [USGIN Metadata Server](https://github.com/usgin/metadata-server)
 
+### Installation Notes
 This repository contains four Django applications:
 - dgn
 - metadatadb
@@ -16,7 +18,7 @@ This repository contains four Django applications:
 
 But the `dgn` application is not necessary.  Each application contains a `urls.py` file which follows the standard Django URL structure.  Unless you feel like changing the defined URL structures, the file structure of your virtual environment should look like this:
 
-    my-virtual-environment
+    my-virtual-environment|
     ----|
         bin
         include
@@ -30,3 +32,4 @@ But the `dgn` application is not necessary.  Each application contains a `urls.p
             static
             ui (symbolic link from ../metadata-repository)
             my-django-project
+
