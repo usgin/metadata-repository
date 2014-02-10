@@ -38,5 +38,6 @@ Here are some example core Django files to help you finish up the installation p
 
 
 And to build *.js files, you'll need to:
-> $ cd metadata-repository/ui
-> $ cake build
+
+    $ cd metadata-repository/ui
+    $ cake build
