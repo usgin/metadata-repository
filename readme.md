@@ -18,14 +18,14 @@ This repository contains four Django applications:
 
 But the `dgn` application is not necessary.  Each application contains a `urls.py` file which follows the standard Django URL structure.  Unless you feel like changing the defined URL structures, the file structure of your virtual environment should look like this:
 
-    my-virtual-environment|
+    my-virtual-environment-|
     ----|
         bin
         include
         lib
         metadata-repository
         metadata-server
-    --------my-django-project|
+    --------my-django-project-|
             media
             metadatadb (symbolic link from ../metadata-repository)
             registry (symbolic link from ../metadata-repository)
