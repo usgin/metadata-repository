@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 **This repository contains four Django applications which rely on outdated APIs.  Users should install this software into a virtual environment and install all of the requirements in `pip-requirements.txt` to ensure that everything works properly**
 
 [Here's some low level documentation on getting this software running in Ubuntu 12.04](https://github.com/usgin/metadata-repository/wiki/Low-Level-Installation-Documentation)
@@ -14,6 +13,7 @@ This repository contains four Django applications:
 - metadatadb
 - registry
 - ui
+
 But the `dgn` application is not necessary.  Each application contains a `urls.py` file which follows the standard Django URL structure.  Unless you feel like changing the defined URL structures, the file structure of your virtual environment should look like this:
 
     my-virtual-environment
