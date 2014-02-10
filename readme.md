@@ -37,6 +37,6 @@ Here are some example core Django files to help you finish up the installation p
 - [my-django-project/urls.py](https://github.com/usgin/metadata-repository/blob/master/django-example/urls-example.py)
 
 
-Finally, to build *.js files you'll need to:
+And to build *.js files, you'll need to:
 > $ cd metadata-repository/ui
 > $ cake build

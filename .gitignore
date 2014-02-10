@@ -10,4 +10,5 @@ ui/static/js/
 *.esproj
 .metadata/
 .idea/
+*.js
 *~
