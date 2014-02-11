@@ -1,49 +1,43 @@
-## Setup a Virtual Environment for the Metadata Repository
+**This repository contains four Django applications which rely on outdated APIs.  Users should install this software into a virtual environment and install all of the requirements in `pip-requirements.txt` to ensure that everything works properly**
 
-    $ virtualenv --no-site-packages metadatarepoenv
-    $ cd ~/metadatarepoenv
-    $ source bin/activate
+[Here's some low level documentation on getting this software running in Ubuntu 12.04](https://github.com/usgin/metadata-repository/wiki/Low-Level-Installation-Documentation)
 
-## Setup the Metadata Repository
+### Prerequisites
+- Node.js
+- Coffeescript
+- Python virtualenv
+- PostgreSQL w/ PostGIS
+- [USGIN Metadata Server](https://github.com/usgin/metadata-server)
 
-    (metadatarepoenv) $ git clone git@github.com:usgin/metadata-repository.git
-    (metadatarepoenv) $ cd /metadata-repository
-    (metadatarepoenv) $ pip install -r pip-requirements.txt
+### Installation Notes
+This repository contains four Django applications:
+- dgn
+- metadatadb
+- registry
+- ui
 
-## Setup Django
+But the `dgn` application is not necessary.  Each application contains a `urls.py` file which follows the standard Django URL structure.  Unless you feel like changing the defined URL structures, the file structure of your virtual environment should look like this:
 
-    (metadatarepoenv) $ cd ..
-    (metadatarepoenv) $ django-admin.py startproject metadatarepo
+    ----my-virtual-environment|
+        bin
+        include
+        lib
+        metadata-repository
+        metadata-server
+    --------my-django-project|
+            media
+            metadatadb (symbolic link from ../metadata-repository)
+            registry (symbolic link from ../metadata-repository)
+            static
+            ui (symbolic link from ../metadata-repository)
+            my-django-project
 
-### Setup Postgres Databases
+Here are some example core Django files to help you finish up the installation process:
+- [my-django-project/settings.py](https://github.com/usgin/metadata-repository/blob/master/django-example/settings-example.py)
+- [my-django-project/urls.py](https://github.com/usgin/metadata-repository/blob/master/django-example/urls-example.py)
 
-    (metadatarepoenv) $ sudo -su postgres
-    $ createuser -S -D -R -P metadatarepouser
-    $ createdb -T template_postgis -O metadatarepouser metadatarepo -E utf-8
-    $ psql -d metadatarepo -c '\dt'
-    $ psql -d metadatarepo -c 'ALTER TABLE geometry_columns OWNER TO metadatarepouser;'
-    $ psql -d metadatarepo -c 'ALTER TABLE spatial_ref_sys OWNER TO metadatarepouser;'
-    $ exit
 
-### Sync Django with Postgres
+And to build *.js files, you'll need to:
 
-    (metadatarepoenv) $ python manage.py syncdb
-
-GeoDjango v1.4 might have deployed with a buggy version of libgeos.  If it did, you won't be able to get past the above step without doing the following:
-
-    $ sudo nano ../python2.7/site-packages/django/contrib/gis/geos/libgeos.py
-    Change this:
-    $ version_regex = re.compile(r'^(?P<version>(?P<major>\d+)\.(?P<minor>\d+)\.(?P<subminor>\d+))((rc(?P<release_candidate>\d+))|dev)?-CAPI-(?P<capi_version>\d+\.\d+\.\d+)$')
-    To this:
-    $ version_regex = re.compile(r'^(?P<version>(?P<major>\d+)\.(?P<minor>\d+)\.(?P<subminor>\d+))((rc(?P<release_candidate>\d+))|dev)?-CAPI-(?P<capi_version>\d+\.\d+\.\d+).*$')
-
-## Required settings defined in settings.py
-	RECAPTCHA_PUBLIC_KEY
-	RECAPTCHA_PRIVATE_KEY
-	EMAIL_HOST
-	EMAIL_PORT
-	EMAIL_HOST_USER
-	EMAIL_HOST_PASSWORD
-	EMAIL_USE_TLS
-	SERVER_EMAIL
-	SITE_ID
+    $ cd metadata-repository/ui
+    $ cake build
