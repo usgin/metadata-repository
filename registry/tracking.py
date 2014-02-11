@@ -14,7 +14,7 @@ def track_record(user, resourceId, content, isDelete):
     try:
         res = Resource.objects.get(metadata_id=resourceId)        
     except Resource.DoesNotExist:
-        res = Resource.objects.create(metadata_id=resourceId)
+        res = Resource.objects.create(metadata_id=resourceId, published=content['Published'])
         res.editors.add(user)
     
     # Basic record information    

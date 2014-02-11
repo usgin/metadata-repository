@@ -154,13 +154,7 @@ def geojson(user, response):
 def waf (user, response):
     soup = BeautifulSoup(response.content)
     for li in soup.find_all('li'):
-        resourceId = li.a.string.rstrip('.xml')
         li.a['href'] = '/metadata' + li.a['href']
-        try:
-            res = Resource.objects.get(metadata_id=resourceId)
-            if not res.can_view(user): li.extract()
-        except Resource.DoesNotExist:
-            pass
     result = str(soup)
     
     # Adjust the HttpResponse and return it

@@ -2,11 +2,11 @@ extends ./base
 
 block page-title
 	title Harvest
-	
+
 block styles
 	link(rel="stylesheet/less", type="text/css", href="/static/css/harvest.less")
 	link(rel="stylesheet", type="text/css", href="/static/css/jqueryui/jquery-ui-1.8.16.custom.css")
-	
+
 block scripts
 	script(type="text/javascript", src="/static/lib/jquery-ui-1.8.16.custom.min.js")
 	script(type="text/javascript", src="/static/lib/underscore-1.3.3.min.js")
@@ -19,7 +19,7 @@ block scripts
 	{% endautoescape %}
 	script(type="text/javascript", src="/static/js/harvest-views.js")
 	script(type="text/javascript", src="/static/js/harvest.js")
-	
+
 block page-content
 	#harvest-form-block
 		#harvest-form-title.block-title Harvest Remote Metadata
